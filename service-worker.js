@@ -1,13 +1,14 @@
 const CACHE_NAME = 'syndy-wallet-v11';
+const BASE = '/syndy-wallet';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/styles.css',
-  '/app.js',
-  '/manifest.json',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
-  '/icons/astral-logo.png'
+  BASE + '/',
+  BASE + '/index.html',
+  BASE + '/styles.css',
+  BASE + '/app.js',
+  BASE + '/manifest.json',
+  BASE + '/icons/icon-192.png',
+  BASE + '/icons/icon-512.png',
+  BASE + '/icons/astral-logo.png'
 ];
 
 self.addEventListener('install', e => {
@@ -24,11 +25,12 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   e.respondWith(
-    caches.match(e.request).then(r => r || fetch(e.request).catch(() => caches.match('/index.html')))
+    caches.match(e.request).then(r => r || fetch(e.request)
+      .catch(() => caches.match(BASE + '/index.html')))
   );
 });
 
 self.addEventListener('notificationclick', e => {
   e.notification.close();
-  e.waitUntil(clients.openWindow('/'));
+  e.waitUntil(clients.openWindow(BASE + '/'));
 });

@@ -772,7 +772,7 @@ function checkReminders() {
 // ── INIT ──────────────────────────────────────────────────────
 function init() {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js').catch(() => {});
+    navigator.serviceWorker.register('/syndy-wallet/service-worker.js', { scope: '/syndy-wallet/' }).catch(() => {});
   }
   document.getElementById('dashDate').textContent = new Date().toLocaleDateString('en-IN', {
     weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
