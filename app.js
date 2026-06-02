@@ -17,7 +17,6 @@ const ACCOUNTS = [
 // ── CHECKPOINT MIGRATION GUARD ────────────────────────────────
 // Wipes any checkpoint older than 2026-06 so the corrected
 // June 1 opening balances above become the anchor.
-// Runs once on page load — silent if nothing to do.
 (function migrateCheckpoints() {
   try {
     const raw = localStorage.getItem('sw_checkpoints');
@@ -82,12 +81,21 @@ let txns      = loadTxns();
 let reminders = loadReminders();
 
 // ── HELPERS ───────────────────────────────────────────────────
-// IST-aware (UTC+5:30) — fixes midnight rollover bug
+// IST-aware using Intl — correct for all timezones including UTC+5:30
 function istNow() {
-  return new Date(Date.now() + 330 * 60 * 1000);
+  // Returns a Date object whose local methods reflect IST (Asia/Kolkata)
+  const now = new Date();
+  const istStr = now.toLocaleString('en-CA', { timeZone: 'Asia/Kolkata', hour12: false });
+  // en-CA gives YYYY-MM-DD HH:mm:ss format
+  return new Date(istStr.replace(',', ''));
 }
-function todayStr()     { return istNow().toISOString().slice(0, 10); }
-function currentMonth() { return istNow().toISOString().slice(0, 7); }
+function todayStr() {
+  const now = new Date();
+  return now.toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' }); // YYYY-MM-DD
+}
+function currentMonth() {
+  return todayStr().slice(0, 7);
+}
 
 function fmtAmt(n) {
   return '₹' + Math.abs(n).toLocaleString('en-IN', { minimumFractionDigits:0, maximumFractionDigits:0 });
