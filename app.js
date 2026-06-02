@@ -14,27 +14,35 @@ const ACCOUNTS = [
   { name: 'Kotak Credit Card', type: 'Credit Card', balance: -15364   }
 ];
 
-// ── CHECKPOINT MIGRATION GUARD ────────────────────────────────
-// Wipes any checkpoint older than 2026-06 so the corrected
-// June 1 opening balances above become the anchor.
-(function migrateCheckpoints() {
-  // V13: Wipe ALL checkpoints from before June 2026 so the correct
-  // June 1st opening balances in ACCOUNTS become the clean anchor.
-  // Any June-onwards checkpoints (created by Rahul) are preserved.
+// ── V13 HARD RESET GUARD ─────────────────────────────────────
+// This runs ONCE per device using a version stamp in localStorage.
+// On first load of V13, it wipes ALL pre-June-2026 checkpoints and
+// ALL transactions older than 2026-06-01 so old May data is gone.
+// June-2026-onwards checkpoints and transactions are preserved.
+// After running, stamps 'sw_v13_migrated' so it never runs again.
+(function v13HardReset() {
   try {
-    const raw = localStorage.getItem('sw_checkpoints');
-    if (!raw) return;
-    const all = JSON.parse(raw);
-    let changed = false;
-    Object.keys(all).forEach(k => {
-      if (k < '2026-06') { delete all[k]; changed = true; }
-    });
-    if (!changed) return;
-    if (!Object.keys(all).length) {
-      localStorage.removeItem('sw_checkpoints');
-    } else {
-      localStorage.setItem('sw_checkpoints', JSON.stringify(all));
+    if (localStorage.getItem('sw_v13_migrated') === '1') return;
+
+    // 1. Wipe all pre-June checkpoints
+    const rawCp = localStorage.getItem('sw_checkpoints');
+    if (rawCp) {
+      const allCp = JSON.parse(rawCp);
+      Object.keys(allCp).forEach(k => { if (k < '2026-06') delete allCp[k]; });
+      if (!Object.keys(allCp).length) localStorage.removeItem('sw_checkpoints');
+      else localStorage.setItem('sw_checkpoints', JSON.stringify(allCp));
     }
+
+    // 2. Wipe all transactions before June 2026
+    const rawTx = localStorage.getItem('sw_txns');
+    if (rawTx) {
+      const txns = JSON.parse(rawTx);
+      const kept = txns.filter(t => t.date && t.date >= '2026-06-01');
+      localStorage.setItem('sw_txns', JSON.stringify(kept));
+    }
+
+    // 3. Stamp — never run again on this device
+    localStorage.setItem('sw_v13_migrated', '1');
   } catch(e) {}
 })();
 
