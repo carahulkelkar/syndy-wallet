@@ -7,11 +7,11 @@
 const OPENING_DATE = '2026-05-05';
 
 const ACCOUNTS = [
-  { name: 'Cash',              type: 'Cash',        balance: 984      },
-  { name: 'ICICI Savings',     type: 'Bank',        balance: 1110.84  },
-  { name: 'Kotak Savings',     type: 'Bank',        balance: 66.01    },
-  { name: 'Kotak LAS OD',      type: 'Liability',   balance: -109433  },
-  { name: 'Kotak Credit Card', type: 'Credit Card', balance: 0        }
+  { name: 'Cash',              type: 'Cash',        balance: 927      },
+  { name: 'ICICI Savings',     type: 'Bank',        balance: 885.84   },
+  { name: 'Kotak Savings',     type: 'Bank',        balance: 3.06     },
+  { name: 'Kotak LAS OD',      type: 'Liability',   balance: -70110   },
+  { name: 'Kotak Credit Card', type: 'Credit Card', balance: -15364   }
 ];
 
 const EXP_CATS = ['Food','Grocery','Housing','Utilities','Health','Personal','Lifestyle','Misc'];
