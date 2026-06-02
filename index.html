@@ -1,32 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-  <meta name="theme-color" content="#0a0a0f"/>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-  <meta name="apple-mobile-web-app-title" content="Syndy"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0a0f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Syndy" />
   <title>Syndy Wallet</title>
-  <link rel="manifest" href="manifest.json"/>
-  <link rel="stylesheet" href="styles.css"/>
-  <link rel="icon" type="image/png" href="data:image/png;base64,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"/>
-  <link rel="apple-touch-icon" href="icons/icon-192.png"/>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 <div id="app">
 
   <header class="app-header">
-    <div class="logo-wrap">
-      <img src="icons/icon-192.png" class="header-logo" alt="Astral"/>
-      <div class="logo-text">Syndy <span>Wallet</span></div>
-    </div>
+    <div class="logo">Syndy <span>Wallet</span></div>
     <div style="font-size:11px;color:var(--text3);font-family:var(--mono)">ASTRAL</div>
   </header>
 
   <div id="reminderBanner" style="display:none;background:rgba(124,106,247,0.12);border-bottom:1px solid rgba(124,106,247,0.25);padding:10px 16px;font-size:13px;color:var(--accent2)"></div>
-  <div id="budgetAlertBanner" class="budget-alert-banner"></div>
 
+  <!-- PAGE 1 — DASHBOARD -->
   <div id="page-dashboard" class="page active">
     <div class="page-title">Dashboard</div>
     <div class="page-sub" id="dashDate"></div>
@@ -36,25 +31,27 @@
     </div>
     <div id="accountsGrid"></div>
     <div class="stats-row">
-      <div class="stat-card"><div class="stat-label">Today's Expense</div><div class="stat-value expense" id="statToday">&#8377;0.00</div></div>
-      <div class="stat-card"><div class="stat-label">Month Expense</div><div class="stat-value expense" id="statMonthExp">&#8377;0.00</div></div>
+      <div class="stat-card"><div class="stat-label">Today's Expense</div><div class="stat-value expense" id="statToday">₹0.00</div></div>
+      <div class="stat-card"><div class="stat-label">Month Expense</div><div class="stat-value expense" id="statMonthExp">₹0.00</div></div>
     </div>
     <div class="stats-row">
-      <div class="stat-card"><div class="stat-label">Month Income</div><div class="stat-value income" id="statMonthInc">&#8377;0.00</div></div>
+      <div class="stat-card"><div class="stat-label">Month Income</div><div class="stat-value income" id="statMonthInc">₹0.00</div></div>
       <div class="stat-card"><div class="stat-label">Transactions</div><div class="stat-value" id="statTotal" style="color:var(--text)">0</div></div>
     </div>
     <div class="section-header" style="margin-top:8px"><div class="section-title">Recent</div></div>
     <div class="card" style="padding:8px 16px"><div id="recentList"></div></div>
   </div>
 
+  <!-- PAGE 2 — ADD TRANSACTION -->
   <div id="page-add" class="page">
-    <div class="page-title" id="addPageTitle">Add Transaction</div>
+    <div class="page-title">Add Transaction</div>
     <div class="page-sub" id="addDateLabel"></div>
+
     <div class="card">
-      <div class="section-title" style="margin-bottom:10px">&#10024; AI Quick Entry</div>
+      <div class="section-title" style="margin-bottom:10px">✨ AI Quick Entry</div>
       <div class="nl-input-wrap">
-        <input id="nlInput" class="nl-input" type="text" placeholder='e.g. "Lunch 130 ICICI"'/>
-        <button class="nl-btn" onclick="parseNL()">&rarr;</button>
+        <input id="nlInput" class="nl-input" type="text" placeholder='e.g. "Lunch 130 ICICI"' />
+        <button class="nl-btn" onclick="parseNL()">→</button>
       </div>
       <div id="aiLoading" class="ai-loading" style="display:none">
         <div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div>
@@ -62,166 +59,216 @@
       </div>
       <div id="nlPreview" class="nl-preview"></div>
     </div>
+
     <div class="card">
       <div class="section-title" style="margin-bottom:14px">Manual Entry</div>
+
       <div class="form-group">
         <label class="form-label">Date</label>
-        <input id="txnDate" class="form-control" type="date"/>
+        <input id="txnDate" class="form-control" type="date" />
       </div>
+
       <div class="form-group">
         <label class="form-label">Type</label>
         <div class="type-selector">
-          <button class="type-btn active expense" data-type="Expense" onclick="setType('Expense')">&#128246; Expense</button>
-          <button class="type-btn" data-type="Income" onclick="setType('Income')">&#128176; Income</button>
-          <button class="type-btn" data-type="Transfer" onclick="setType('Transfer')">&#8596;&#65039; Transfer</button>
+          <button class="type-btn active expense" data-type="Expense"  onclick="selectType('Expense')">💸 Expense</button>
+          <button class="type-btn"               data-type="Income"   onclick="selectType('Income')">💰 Income</button>
+          <button class="type-btn"               data-type="Transfer" onclick="selectType('Transfer')">↔️ Transfer</button>
         </div>
       </div>
+
       <div class="form-group">
-        <label class="form-label">Amount (&#8377;)</label>
-        <input id="txnAmount" class="form-control" type="number" placeholder="0.00" min="0" step="0.01" inputmode="decimal" style="font-size:22px;font-weight:700;padding:14px"/>
+        <label class="form-label">Amount (₹)</label>
+        <input id="txnAmount" class="form-control" type="number" placeholder="0.00" min="0" step="0.01" inputmode="decimal" style="font-size:22px;font-weight:700;padding:14px" />
       </div>
+
       <div id="rowFromAccount" class="form-group">
         <label class="form-label">From Account</label>
         <select id="txnFrom" class="form-control">
-          <option value="">&#8212; Select Account &#8212;</option>
-          <option>Cash</option><option>ICICI Savings</option><option>Kotak Savings</option>
-          <option>Kotak LAS OD</option><option>Kotak Credit Card</option>
+          <option value="">— Select Account —</option>
+          <option>Cash</option>
+          <option>ICICI Savings</option>
+          <option>Kotak Savings</option>
+          <option>Kotak LAS OD</option>
+          <option>Kotak Credit Card</option>
         </select>
       </div>
+
       <div id="rowIncomeAccount" class="form-group" style="display:none">
         <label class="form-label">To Account</label>
         <select id="txnToIncome" class="form-control">
-          <option value="">&#8212; Select Account &#8212;</option>
-          <option>Cash</option><option>ICICI Savings</option><option>Kotak Savings</option>
-          <option>Kotak LAS OD</option><option>Kotak Credit Card</option>
+          <option value="">— Select Account —</option>
+          <option>Cash</option>
+          <option>ICICI Savings</option>
+          <option>Kotak Savings</option>
+          <option>Kotak LAS OD</option>
+          <option>Kotak Credit Card</option>
         </select>
       </div>
+
       <div id="rowToAccount" class="form-group" style="display:none">
         <label class="form-label">To Account</label>
         <select id="txnTo" class="form-control">
-          <option value="">&#8212; Select Account &#8212;</option>
-          <option>Cash</option><option>ICICI Savings</option><option>Kotak Savings</option>
-          <option>Kotak LAS OD</option><option>Kotak Credit Card</option>
+          <option value="">— Select Account —</option>
+          <option>Cash</option>
+          <option>ICICI Savings</option>
+          <option>Kotak Savings</option>
+          <option>Kotak LAS OD</option>
+          <option>Kotak Credit Card</option>
         </select>
       </div>
+
       <div id="rowCategory" class="form-group">
         <label class="form-label">Category</label>
         <select id="txnCategory" class="form-control" onchange="onCategoryChange()">
-          <option value="">&#8212; Select Category &#8212;</option>
+          <option value="">— Select Category —</option>
         </select>
       </div>
+
       <div id="rowSubcategory" class="form-group">
         <label class="form-label">Subcategory</label>
         <select id="txnSubcategory" class="form-control">
-          <option value="">&#8212; Select Subcategory &#8212;</option>
+          <option value="">— Select Subcategory —</option>
         </select>
       </div>
+
       <div class="form-group">
         <label class="form-label">Notes (optional)</label>
-        <input id="txnNotes" class="form-control" type="text" placeholder="Add a note..."/>
+        <input id="txnNotes" class="form-control" type="text" placeholder="Add a note..." />
       </div>
-      <button id="saveTxnBtn" class="btn btn-primary" style="margin-top:4px" onclick="saveTxn()">&#128190; Save Transaction</button>
+
+      <button class="btn btn-primary" style="margin-top:4px" onclick="saveTxnForm()">💾 Save Transaction</button>
     </div>
   </div>
 
+  <!-- PAGE 3 — TRANSACTIONS -->
   <div id="page-data" class="page">
     <div class="page-title">Transactions</div>
-    <div class="card" style="padding:12px;margin-bottom:10px">
+    <div class="page-sub">Tap 🗑 to delete an entry</div>
+
+    <div class="card" style="padding:12px;margin-bottom:12px">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
-        <select id="dataFilterType" class="form-control" onchange="syncPillFromDropdown();renderTxnCards()">
-          <option value="">All Types</option><option>Expense</option><option>Income</option><option>Transfer</option>
+        <select id="dataFilterType" class="form-control" onchange="renderTxnCards()">
+          <option value="">All Types</option>
+          <option>Expense</option>
+          <option>Income</option>
+          <option>Transfer</option>
         </select>
-        <select id="dataFilterAccount" class="form-control" onchange="syncPillFromDropdown();renderTxnCards()">
-          <option value="">All Accounts</option>
-          <option>Cash</option><option>ICICI Savings</option><option>Kotak Savings</option>
-          <option>Kotak LAS OD</option><option>Kotak Credit Card</option>
-        </select>
+        <input id="dataFilterMonth" class="form-control" type="month" onchange="renderTxnCards()" />
       </div>
-      <div style="display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:10px">
-        <input id="dataSearch" class="form-control" type="text" placeholder="&#128269; Search..." oninput="renderTxnCards()"/>
-        <input id="dataFilterMonth" class="form-control" type="month" onchange="renderTxnCards()" style="width:130px"/>
-      </div>
-      <div class="acct-pills-wrap">
-        <button class="acct-pill active" data-acct="" onclick="setAccountPill(this,'')">All</button>
-        <button class="acct-pill" data-acct="Cash" onclick="setAccountPill(this,'Cash')">&#128181; Cash</button>
-        <button class="acct-pill" data-acct="ICICI Savings" onclick="setAccountPill(this,'ICICI Savings')">&#127974; ICICI</button>
-        <button class="acct-pill" data-acct="Kotak Savings" onclick="setAccountPill(this,'Kotak Savings')">&#127974; Kotak Sav</button>
-        <button class="acct-pill" data-acct="Kotak LAS OD" onclick="setAccountPill(this,'Kotak LAS OD')">&#128308; LAS OD</button>
-        <button class="acct-pill" data-acct="Kotak Credit Card" onclick="setAccountPill(this,'Kotak Credit Card')">&#128179; CC</button>
-      </div>
+      <input id="dataSearch" class="form-control" type="text" placeholder="Search..." oninput="renderTxnCards()" />
     </div>
-    <div style="font-size:11px;color:var(--text3);margin-bottom:8px;padding:0 2px" id="txnCountLabel"></div>
+
     <div id="txnCardList"></div>
+
+    <!-- Delete & Export -->
     <div class="card" style="margin-top:8px">
       <div class="section-title" style="margin-bottom:14px">Manage Data</div>
+
       <label class="form-label">Select Date Range</label>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
-        <input id="manageFrom" class="form-control" type="date"/>
-        <input id="manageTo" class="form-control" type="date"/>
+        <input id="manageFrom" class="form-control" type="date" />
+        <input id="manageTo"   class="form-control" type="date" />
       </div>
+
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
-        <button class="btn btn-secondary" onclick="exportCSV()">&#128229; Export CSV</button>
-        <button class="btn btn-secondary" onclick="exportExcel()">&#128202; Export Excel</button>
+        <button class="btn btn-secondary" onclick="exportCSV()">📥 Export CSV</button>
+        <button class="btn btn-secondary" onclick="exportExcel()">📊 Export Excel</button>
       </div>
-      <button class="btn btn-danger" onclick="deleteByRange()">&#128465; Delete Range</button>
+      <button class="btn btn-danger" onclick="deleteByRange()" style="margin-bottom:8px">🗑 Delete Range</button>
+
+      <!-- CHECKPOINT — Model B -->
+      <div style="border-top:1px solid var(--border);margin-top:12px;padding-top:14px">
+        <div style="font-size:12px;color:var(--text3);margin-bottom:10px;line-height:1.6">
+          <b style="color:var(--text2)">🔒 Month Close / Checkpoint</b><br>
+          Lock current balances as a permanent snapshot before deleting historical transactions.
+          After locking, deletions in that month will <b>not</b> affect current balances.
+        </div>
+        <button class="btn btn-primary" onclick="openCloseMonthModal()" style="width:100%">
+          🔒 Close Month &amp; Lock Balances
+        </button>
+        <div id="checkpointStatus" style="margin-top:10px;font-size:11px;color:var(--text3)"></div>
+      </div>
     </div>
   </div>
 
+  <!-- CLOSE MONTH MODAL OVERLAY -->
+  <div id="closeMonthOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;
+       align-items:center;justify-content:center;padding:16px;box-sizing:border-box">
+    <div id="closeMonthModal" style="width:100%;max-width:400px;max-height:90vh;overflow-y:auto"></div>
+  </div>
+
+  <!-- PAGE 4 — REPORTS -->
   <div id="page-reports" class="page">
     <div class="page-title">Reports</div>
+
+    <!-- Month Picker -->
     <div style="margin-bottom:16px">
-      <input id="reportMonthPicker" class="form-control" type="month" onchange="renderReports()"/>
+      <input id="reportMonthPicker" class="form-control" type="month" onchange="renderReports()" />
     </div>
-    <div class="section-title" style="margin-bottom:8px" id="ledgerTitle">Income &amp; Expenditure</div>
+
+    <!-- Ledger: 2 columns -->
+    <div class="section-title" style="margin-bottom:8px" id="ledgerTitle">Income & Expenditure</div>
     <div class="card" style="padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+      <!-- Expenses -->
       <div>
         <div style="font-size:11px;color:var(--text2);text-transform:uppercase;border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:10px;letter-spacing:0.5px">Expenses</div>
         <div id="ledgerExpenses"></div>
         <div style="border-top:1px dashed var(--border);margin-top:10px;padding-top:8px;display:flex;justify-content:space-between">
           <span style="font-size:11px;color:var(--text2);text-transform:uppercase">Total</span>
-          <span style="font-family:var(--mono);font-weight:700;color:var(--expense);font-size:13px" id="ledgerTotalExp">&#8377;0</span>
+          <span style="font-family:var(--mono);font-weight:700;color:var(--expense);font-size:13px" id="ledgerTotalExp">₹0</span>
         </div>
       </div>
+      <!-- Income -->
       <div>
         <div style="font-size:11px;color:var(--text2);text-transform:uppercase;border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:10px;letter-spacing:0.5px">Income</div>
         <div id="ledgerIncome"></div>
         <div style="border-top:1px dashed var(--border);margin-top:10px;padding-top:8px;display:flex;justify-content:space-between">
           <span style="font-size:11px;color:var(--text2);text-transform:uppercase">Total</span>
-          <span style="font-family:var(--mono);font-weight:700;color:var(--income);font-size:13px" id="ledgerTotalInc">&#8377;0</span>
+          <span style="font-family:var(--mono);font-weight:700;color:var(--income);font-size:13px" id="ledgerTotalInc">₹0</span>
         </div>
       </div>
     </div>
+
+    <!-- Category Bar Chart -->
     <div class="section-title" style="margin-bottom:8px">Category Spend</div>
-    <div class="card" style="margin-bottom:16px"><div id="catChart"></div></div>
+    <div class="card" style="margin-bottom:16px">
+      <div id="catChart"></div>
+    </div>
+
+    <!-- Subcategory Drill -->
     <div class="section-title" style="margin-bottom:8px">Subcategory Detail</div>
     <div class="card">
       <select id="reportCatSelect" class="form-control" onchange="renderCategoryDetails()" style="margin-bottom:14px">
-        <option value="">&#8212; Pick a Category &#8212;</option>
+        <option value="">— Pick a Category —</option>
         <option>Food</option><option>Grocery</option><option>Housing</option>
         <option>Utilities</option><option>Health</option><option>Personal</option>
         <option>Lifestyle</option><option>Misc</option>
       </select>
-      <div id="categoryDetailsList"><p style="font-size:13px;color:var(--text3)">Select a category above to see subcategory breakdown.</p></div>
+      <div id="categoryDetailsList">
+        <p style="font-size:13px;color:var(--text3)">Select a category above to see subcategory breakdown.</p>
+      </div>
     </div>
   </div>
 
+  <!-- PAGE 5 — REMINDERS -->
   <div id="page-reminders" class="page">
     <div class="page-title">Reminders</div>
-    <div class="page-sub">Monthly bill &amp; payment alerts</div>
+    <div class="page-sub">Monthly bill & payment alerts</div>
     <div class="card">
       <div class="section-title" style="margin-bottom:14px">Add Reminder</div>
       <div class="form-group">
         <label class="form-label">Title</label>
-        <input id="remTitle" class="form-control" type="text" placeholder="e.g. Rent, Electricity..."/>
+        <input id="remTitle" class="form-control" type="text" placeholder="e.g. Rent, Electricity..." />
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
         <div class="form-group">
           <label class="form-label">Day of Month</label>
-          <input id="remDay" class="form-control" type="number" min="1" max="31" placeholder="e.g. 5"/>
+          <input id="remDay" class="form-control" type="number" min="1" max="31" placeholder="e.g. 5" />
         </div>
         <div class="form-group">
-          <label class="form-label">Amount (&#8377;)</label>
-          <input id="remAmount" class="form-control" type="number" placeholder="Optional"/>
+          <label class="form-label">Amount (₹)</label>
+          <input id="remAmount" class="form-control" type="number" placeholder="Optional" />
         </div>
       </div>
       <div class="form-group">
@@ -235,7 +282,7 @@
       <div class="form-group">
         <div class="switch-row">
           <label class="form-label" style="margin:0">Recurring Monthly</label>
-          <label class="switch"><input type="checkbox" id="remRecurring" checked/><span class="slider"></span></label>
+          <label class="switch"><input type="checkbox" id="remRecurring" checked /><span class="slider"></span></label>
         </div>
       </div>
       <button class="btn btn-primary" onclick="saveReminder()">Add Reminder</button>
@@ -244,44 +291,44 @@
     <div id="reminderList"></div>
   </div>
 
+  <!-- PAGE 6 — BUDGET -->
   <div id="page-budget" class="page">
     <div class="page-title">Budget</div>
     <div class="page-sub" id="budgetMonthLabel"></div>
-    <div class="budget-summary-strip">
-      <div class="bsum-card"><div class="bsum-label">Budgeted</div><div class="bsum-val" id="bSumTotal">&#8377;0</div></div>
-      <div class="bsum-card"><div class="bsum-label">Spent</div><div class="bsum-val expense" id="bSumSpent">&#8377;0</div></div>
-      <div class="bsum-card highlight"><div class="bsum-label">Remaining</div><div class="bsum-val income" id="bSumLeft">&#8377;0</div></div>
-      <div class="bsum-card"><div class="bsum-label">Days Left</div><div class="bsum-val" id="bSumDays" style="color:var(--accent2)">&#8212;</div></div>
+
+    <!-- Month picker -->
+    <div style="margin-bottom:12px">
+      <input id="budgetMonthPicker" class="form-control" type="month" onchange="renderBudget()" />
     </div>
-    <div id="budgetList"></div>
-    <div class="card" style="margin-top:4px">
-      <div class="section-title" style="margin-bottom:14px">&#10133; Set Subcategory Budget</div>
-      <div class="form-group">
-        <label class="form-label">Category</label>
-        <select id="budgetCatSelect" class="form-control" onchange="onBudgetCatChange()">
-          <option value="">&#8212; Select Category &#8212;</option>
+
+    <!-- Over-budget alert -->
+    <div id="budgetAlertBar" style="display:none;background:rgba(248,113,113,0.12);border:1px solid rgba(248,113,113,0.3);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:#f87171"></div>
+
+    <!-- Add Budget Item -->
+    <div class="card" style="margin-bottom:12px">
+      <div class="section-title" style="margin-bottom:12px">Add Budget Item</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+        <select id="budgetCat" class="form-control" onchange="onBudgetCatChange()">
+          <option value="">Category</option>
           <option>Food</option><option>Grocery</option><option>Housing</option>
           <option>Utilities</option><option>Health</option><option>Personal</option>
           <option>Lifestyle</option><option>Misc</option>
         </select>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Subcategory</label>
-        <select id="budgetSubSelect" class="form-control">
-          <option value="">&#8212; Select Subcategory &#8212;</option>
+        <select id="budgetSub" class="form-control">
+          <option value="">Subcategory</option>
         </select>
       </div>
-      <div class="form-group">
-        <label class="form-label">Monthly Budget (&#8377;)</label>
-        <input id="budgetAmount" class="form-control" type="number" placeholder="e.g. 3000" min="1" step="1" style="font-size:20px;font-weight:700;padding:14px" inputmode="numeric"/>
+      <div style="display:grid;grid-template-columns:1fr auto;gap:8px">
+        <input id="budgetAmt" class="form-control" type="number" placeholder="Budget Amount ₹" min="0" step="1" />
+        <button class="btn btn-primary" style="padding:0 18px" onclick="addBudgetItem()">Add</button>
       </div>
-      <button class="btn btn-primary" onclick="saveBudgetEntry()">&#128190; Save Budget</button>
     </div>
-    <div style="margin-top:10px;margin-bottom:4px">
-      <button class="btn btn-danger" onclick="clearAllBudgets()">&#128465; Clear All Budgets</button>
-    </div>
+
+    <!-- Budget List -->
+    <div id="budgetList"></div>
   </div>
 
+  <!-- BOTTOM NAV -->
   <nav class="bottom-nav">
     <button class="nav-btn active" id="nav-dashboard" onclick="showPage('dashboard')">
       <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
@@ -304,7 +351,7 @@
       Reminders
     </button>
     <button class="nav-btn" id="nav-budget" onclick="showPage('budget')">
-      <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
       Budget
     </button>
   </nav>
