@@ -4,7 +4,7 @@
 // SYNDY Governance | Rahul Kelkar (Sole Authority)
 // ============================================================
 
-const OPENING_DATE = '2026-05-05';
+const OPENING_DATE = '2026-06-01';
 
 const ACCOUNTS = [
   { name: 'Cash',              type: 'Cash',        balance: 927      },
@@ -13,6 +13,29 @@ const ACCOUNTS = [
   { name: 'Kotak LAS OD',      type: 'Liability',   balance: -70110   },
   { name: 'Kotak Credit Card', type: 'Credit Card', balance: -15364   }
 ];
+
+// ── CHECKPOINT MIGRATION GUARD ────────────────────────────────
+// Wipes any checkpoint older than 2026-06 so the corrected
+// June 1 opening balances above become the anchor.
+// Runs once on page load — silent if nothing to do.
+(function migrateCheckpoints() {
+  try {
+    const raw = localStorage.getItem('sw_checkpoints');
+    if (!raw) return;
+    const all = JSON.parse(raw);
+    const months = Object.keys(all).sort();
+    if (!months.length) return;
+    const latest = months[months.length - 1];
+    if (latest < '2026-06') {
+      delete all[latest];
+      if (!Object.keys(all).length) {
+        localStorage.removeItem('sw_checkpoints');
+      } else {
+        localStorage.setItem('sw_checkpoints', JSON.stringify(all));
+      }
+    }
+  } catch(e) {}
+})();
 
 const EXP_CATS = ['Food','Grocery','Housing','Utilities','Health','Personal','Lifestyle','Misc'];
 const INC_SUBS = ['Salary','Professional Fees','Sav Int-Kotak','Sav Int-ICICI','Bond Interest'];
