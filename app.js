@@ -1,5 +1,5 @@
 // ============================================================
-// SYNDY WALLET — app.js  v12
+// SYNDY WALLET — app.js  v13
 // Model B: Checkpoint-based balance system
 // SYNDY Governance | Rahul Kelkar (Sole Authority)
 // ============================================================
@@ -18,20 +18,22 @@ const ACCOUNTS = [
 // Wipes any checkpoint older than 2026-06 so the corrected
 // June 1 opening balances above become the anchor.
 (function migrateCheckpoints() {
+  // V13: Wipe ALL checkpoints from before June 2026 so the correct
+  // June 1st opening balances in ACCOUNTS become the clean anchor.
+  // Any June-onwards checkpoints (created by Rahul) are preserved.
   try {
     const raw = localStorage.getItem('sw_checkpoints');
     if (!raw) return;
     const all = JSON.parse(raw);
-    const months = Object.keys(all).sort();
-    if (!months.length) return;
-    const latest = months[months.length - 1];
-    if (latest < '2026-06') {
-      delete all[latest];
-      if (!Object.keys(all).length) {
-        localStorage.removeItem('sw_checkpoints');
-      } else {
-        localStorage.setItem('sw_checkpoints', JSON.stringify(all));
-      }
+    let changed = false;
+    Object.keys(all).forEach(k => {
+      if (k < '2026-06') { delete all[k]; changed = true; }
+    });
+    if (!changed) return;
+    if (!Object.keys(all).length) {
+      localStorage.removeItem('sw_checkpoints');
+    } else {
+      localStorage.setItem('sw_checkpoints', JSON.stringify(all));
     }
   } catch(e) {}
 })();
@@ -46,7 +48,7 @@ const CATEGORIES = {
     Housing:   ['Rent-Landlord','Rent Mojo','Snabbit','Phenol-Harpic','Washing Powder','Malad Pagdi','Ratnagiri Maintenance'],
     Utilities: ['Electricity','Gas','Internet','Postpaid Vi','Prepaid Jio','Ironing'],
     Health:    ['Medicines','Doctor','Tests'],
-    Personal:  ['Clothings','Hair Oil','Deodorant','Face Cream-Powder','Tooth Paste-Brush','Blade-Foam'],
+    Personal:  ['Clothings','Hair Oil','Deodorant','Face Cream-Powder','Tooth Paste-Brush','Blade-Foam','Rituals','Haircutting','System'],
     Lifestyle: ['Netflix','AI-Astra','ICAI fees','Entertainment','Travelling'],
     Misc:      ['Online Charges','Transport-Auto','Tobacco','Others']
   },
@@ -112,14 +114,21 @@ function monthLabel(ym) {
 }
 
 // ── BALANCE ENGINE (MODEL B) ──────────────────────────────────
+// LONG-TERM SAFETY GUARANTEE (verified V13):
+//
 // Priority order:
 //   1. Most recent checkpoint  ← anchor (immune to transaction deletion)
 //   2. Hardcoded ACCOUNTS      ← only used before first-ever checkpoint
 //
-// Transactions AFTER the checkpoint cutoff date are replayed on top.
-// Transactions ON OR BEFORE the checkpoint month are ignored by the engine —
-//   they are already baked into the checkpoint balance.
-// This means deleting pre-checkpoint transactions never changes current balances.
+// Transactions AFTER the checkpoint cutoff month are replayed on top.
+// Transactions IN OR BEFORE the checkpoint month are ignored.
+// → Deleting June transactions after a June checkpoint = SAFE
+// → July / August / September balances = UNAFFECTED
+// → Current balance = UNAFFECTED
+//
+// Workflow for Rahul:
+//   End of month → Close Month (lock checkpoint) → Export CSV → Delete old txns
+//   Next month's balances continue correctly from the locked checkpoint.
 //
 function calcBalances() {
   const cp = getLatestCheckpoint();
