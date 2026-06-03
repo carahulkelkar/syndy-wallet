@@ -905,12 +905,37 @@ function ensureBudgetCarryForward(month) {
   }
 }
 
+// ── EDIT BUDGET ITEM ──────────────────────────────────────────
+function editBudgetItem(month, id) {
+  const all   = loadBudgets();
+  const items = all[month] || [];
+  const item  = items.find(i => i.id === id);
+  if (!item) return;
+  // Pre-fill the Add form with existing values for editing
+  const catEl = document.getElementById('budgetCat');
+  const subEl = document.getElementById('budgetSub');
+  const amtEl = document.getElementById('budgetAmt');
+  catEl.value = item.category;
+  onBudgetCatChange();
+  // Wait for subcategory options to populate then set value
+  setTimeout(() => {
+    subEl.value = item.subcategory;
+    amtEl.value = item.amount;
+    // Remove old item so Add becomes an update
+    all[month] = items.filter(i => i.id !== id);
+    saveBudgets(all);
+    renderBudget();
+    // Scroll to top of budget tab so user sees the form
+    document.getElementById('budgetAmt').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    showToast('Edit the values above and tap Add', 'info');
+  }, 50);
+}
+
 function renderBudget() {
   const picker = document.getElementById('budgetMonthPicker');
   if (!picker.value) picker.value = currentMonth();
   const month = picker.value;
 
-  // Auto carry-forward if new month has no budget
   ensureBudgetCarryForward(month);
 
   const label = monthLabel(month);
@@ -924,6 +949,9 @@ function renderBudget() {
     container.innerHTML = `<div class="empty-state"><div class="empty-icon">📊</div>
       <p>No budgets set for ${label}.<br>Add items above.</p></div>`;
     document.getElementById('budgetAlertBar').style.display='none';
+    // Hide summary if no items
+    const sumEl = document.getElementById('budgetSummaryBar');
+    if (sumEl) sumEl.style.display='none';
     return;
   }
 
@@ -938,6 +966,54 @@ function renderBudget() {
   const dayOfMonth  = (month===currentMonth()) ? istNow().getDate() : daysInMonth;
   const daysLeft    = Math.max(0, daysInMonth - dayOfMonth);
   const overItems   = [];
+
+  // ── TOTALS ──
+  let totalBudget = 0, totalSpent = 0;
+  items.forEach(item => {
+    const key = item.category+'||'+item.subcategory;
+    totalBudget += item.amount;
+    totalSpent  += (spendMap[key]||0);
+  });
+  const totalLeft   = totalBudget - totalSpent;
+  const totalPct    = totalBudget > 0 ? Math.min((totalSpent/totalBudget)*100, 100) : 0;
+  const summaryOver = totalSpent > totalBudget;
+  const summaryWarn = !summaryOver && totalPct >= 75;
+  const sumBarCol   = summaryOver?'#f87171':summaryWarn?'#f59e0b':'var(--accent)';
+  const sumLeftCol  = summaryOver?'var(--expense)':summaryWarn?'#f59e0b':'var(--income)';
+
+  // ── SUMMARY BAR ──
+  let sumEl = document.getElementById('budgetSummaryBar');
+  if (!sumEl) {
+    sumEl = document.createElement('div');
+    sumEl.id = 'budgetSummaryBar';
+    container.parentNode.insertBefore(sumEl, container);
+  }
+  sumEl.style.display = 'block';
+  sumEl.innerHTML = `
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px">
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Monthly Summary</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;text-align:center">
+        <div>
+          <div style="font-size:10px;color:var(--text3);margin-bottom:3px">TOTAL BUDGET</div>
+          <div style="font-family:var(--mono);font-size:15px;font-weight:700;color:var(--text)">${fmtAmt(totalBudget)}</div>
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--text3);margin-bottom:3px">SPENT</div>
+          <div style="font-family:var(--mono);font-size:15px;font-weight:700;color:var(--expense)">${fmtAmt(totalSpent)}</div>
+        </div>
+        <div>
+          <div style="font-size:10px;color:var(--text3);margin-bottom:3px">${summaryOver?'OVER':'BALANCE'}</div>
+          <div style="font-family:var(--mono);font-size:15px;font-weight:700;color:${sumLeftCol}">${summaryOver?'-':''}${fmtAmt(Math.abs(totalLeft))}</div>
+        </div>
+      </div>
+      <div style="height:8px;background:var(--bg3);border-radius:4px;overflow:hidden">
+        <div style="height:100%;width:${totalPct.toFixed(1)}%;background:${sumBarCol};border-radius:4px;transition:width 0.5s ease"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:6px">
+        <span style="font-size:10px;color:var(--text3)">${totalPct.toFixed(0)}% used</span>
+        <span style="font-size:10px;color:var(--text3)">${daysLeft > 0 ? daysLeft+'d left in month' : 'Month complete'}</span>
+      </div>
+    </div>`;
 
   const html = items
     .sort((a,b)=>a.category.localeCompare(b.category)||a.subcategory.localeCompare(b.subcategory))
@@ -969,8 +1045,9 @@ function renderBudget() {
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center">
           <span style="font-size:11px;color:var(--text3)">Spent ${fmtAmt(spent)} of ${fmtAmt(budget)}</span>
-          <div style="display:flex;align-items:center;gap:10px">
+          <div style="display:flex;align-items:center;gap:8px">
             <span style="font-size:11px;color:var(--text3)">${pct.toFixed(0)}% used${daysLeft>0?' · '+daysLeft+'d left':''}</span>
+            <button onclick="editBudgetItem('${month}','${item.id}')" style="background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.3);border-radius:6px;cursor:pointer;color:var(--accent);font-size:12px;padding:3px 8px;font-weight:600">✏ Edit</button>
             <button onclick="deleteBudgetItem('${month}','${item.id}')" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:16px;padding:0">🗑</button>
           </div>
         </div>
