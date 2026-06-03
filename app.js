@@ -640,10 +640,51 @@ function renderTxnCards() {
       </div>
       <div style="text-align:right;flex-shrink:0">
         <div style="font-family:var(--mono);font-size:15px;font-weight:700;color:${col}">${sign}${fmtAmtDec(parseFloat(t.amount)||0)}</div>
-        <button onclick="deleteTxn('${t.id}')" style="background:none;border:none;cursor:pointer;color:var(--text3);font-size:18px;margin-top:4px;padding:0">🗑</button>
+        <div style="display:flex;gap:6px;justify-content:flex-end;margin-top:6px">
+          <button onclick="editTxn('${t.id}')" style="background:rgba(0,212,170,0.1);border:1px solid rgba(0,212,170,0.3);border-radius:6px;cursor:pointer;color:var(--accent);font-size:11px;padding:3px 8px;font-weight:600">✏ Edit</button>
+          <button onclick="deleteTxn('${t.id}')" style="background:rgba(248,113,113,0.1);border:1px solid rgba(248,113,113,0.3);border-radius:6px;cursor:pointer;color:var(--expense);font-size:11px;padding:3px 8px;font-weight:600">🗑 Del</button>
+        </div>
       </div>
     </div>`;
   }).join('');
+}
+
+function editTxn(id) {
+  const t = txns.find(x => x.id === id);
+  if (!t) return;
+  // Switch to Add tab
+  switchTab('add');
+  // Fill form fields
+  setTimeout(() => {
+    const typeEl = document.getElementById('txnType');
+    typeEl.value = t.type;
+    typeEl.dispatchEvent(new Event('change'));
+    setTimeout(() => {
+      document.getElementById('txnAmount').value  = t.amount;
+      document.getElementById('txnDate').value    = t.date;
+      document.getElementById('txnNotes').value   = t.notes || '';
+      if (t.type === 'Expense' || t.type === 'Income') {
+        const catEl = document.getElementById('txnCat');
+        const subEl = document.getElementById('txnSub');
+        const accEl = document.getElementById(t.type==='Expense'?'txnFrom':'txnTo');
+        if (catEl) { catEl.value = t.category || ''; catEl.dispatchEvent(new Event('change')); }
+        setTimeout(() => {
+          if (subEl) subEl.value = t.subcategory || '';
+          if (accEl) accEl.value = t.type==='Expense' ? t.fromAccount : t.toAccount;
+        }, 50);
+      } else if (t.type === 'Transfer') {
+        const fromEl = document.getElementById('txnTransferFrom');
+        const toEl   = document.getElementById('txnTransferTo');
+        if (fromEl) fromEl.value = t.fromAccount || '';
+        if (toEl)   toEl.value   = t.toAccount   || '';
+      }
+      // Remove original so Save = update
+      txns = txns.filter(x => x.id !== id);
+      saveTxns(txns);
+      renderDashboard();
+      showToast('Edit the entry above and tap Save', 'info');
+    }, 80);
+  }, 80);
 }
 
 function deleteTxn(id) {
