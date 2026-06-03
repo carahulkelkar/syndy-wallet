@@ -1,12 +1,12 @@
-const CACHE_NAME = 'syndy-wallet-v13';
+const CACHE_NAME = 'syndy-wallet-v14';
 const ASSETS = [
   '/syndy-wallet/',
   '/syndy-wallet/index.html',
   '/syndy-wallet/styles.css',
   '/syndy-wallet/app.js',
   '/syndy-wallet/manifest.json',
-  '/syndy-wallet/icon-192.png',
-  '/syndy-wallet/icon-512.png'
+  '/syndy-wallet/icons/icon-192.png',
+  '/syndy-wallet/icons/icon-512.png'
 ];
 
 self.addEventListener('install', e => {
@@ -24,7 +24,8 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   e.respondWith(
-    caches.match(e.request).then(r => r || fetch(e.request).catch(() => caches.match('/syndy-wallet/index.html')))
+    caches.match(e.request).then(r => r || fetch(e.request)
+      .catch(() => caches.match('/syndy-wallet/index.html')))
   );
 });
 
