@@ -1,12 +1,10 @@
-const CACHE_NAME = 'syndy-wallet-v14';
+const CACHE_NAME = 'syndy-wallet-v15';
 const ASSETS = [
   '/syndy-wallet/',
   '/syndy-wallet/index.html',
   '/syndy-wallet/styles.css',
   '/syndy-wallet/app.js',
-  '/syndy-wallet/manifest.json',
-  '/syndy-wallet/icons/icon-192.png',
-  '/syndy-wallet/icons/icon-512.png'
+  '/syndy-wallet/manifest.json'
 ];
 
 self.addEventListener('install', e => {
