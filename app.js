@@ -652,39 +652,55 @@ function renderTxnCards() {
 function editTxn(id) {
   const t = txns.find(x => x.id === id);
   if (!t) return;
-  // Switch to Add tab
-  switchTab('add');
-  // Fill form fields
+
+  // Remove original first so re-save = update
+  txns = txns.filter(x => x.id !== id);
+  saveTxns(txns);
+
+  // Switch to Add tab using correct function
+  showPage('add');
+
   setTimeout(() => {
-    const typeEl = document.getElementById('txnType');
-    typeEl.value = t.type;
-    typeEl.dispatchEvent(new Event('change'));
+    // Set transaction type using the button-based selectType()
+    selectType(t.type);
+
     setTimeout(() => {
-      document.getElementById('txnAmount').value  = t.amount;
-      document.getElementById('txnDate').value    = t.date;
-      document.getElementById('txnNotes').value   = t.notes || '';
-      if (t.type === 'Expense' || t.type === 'Income') {
-        const catEl = document.getElementById('txnCat');
-        const subEl = document.getElementById('txnSub');
-        const accEl = document.getElementById(t.type==='Expense'?'txnFrom':'txnTo');
-        if (catEl) { catEl.value = t.category || ''; catEl.dispatchEvent(new Event('change')); }
+      // Common fields
+      document.getElementById('txnAmount').value = t.amount;
+      document.getElementById('txnDate').value   = t.date;
+      document.getElementById('txnNotes').value  = t.notes || '';
+
+      if (t.type === 'Expense') {
+        const catEl = document.getElementById('txnCategory');
+        const accEl = document.getElementById('txnFrom');
+        if (catEl) { catEl.value = t.category || ''; onCategoryChange(); }
+        if (accEl) accEl.value = t.fromAccount || '';
         setTimeout(() => {
+          const subEl = document.getElementById('txnSubcategory');
           if (subEl) subEl.value = t.subcategory || '';
-          if (accEl) accEl.value = t.type==='Expense' ? t.fromAccount : t.toAccount;
-        }, 50);
+        }, 60);
+
+      } else if (t.type === 'Income') {
+        const catEl = document.getElementById('txnCategory');
+        const accEl = document.getElementById('txnToIncome');
+        if (catEl) { catEl.value = t.category || ''; onCategoryChange(); }
+        if (accEl) accEl.value = t.toAccount || '';
+        setTimeout(() => {
+          const subEl = document.getElementById('txnSubcategory');
+          if (subEl) subEl.value = t.subcategory || '';
+        }, 60);
+
       } else if (t.type === 'Transfer') {
-        const fromEl = document.getElementById('txnTransferFrom');
-        const toEl   = document.getElementById('txnTransferTo');
+        const fromEl = document.getElementById('txnFrom');
+        const toEl   = document.getElementById('txnTo');
         if (fromEl) fromEl.value = t.fromAccount || '';
         if (toEl)   toEl.value   = t.toAccount   || '';
       }
-      // Remove original so Save = update
-      txns = txns.filter(x => x.id !== id);
-      saveTxns(txns);
+
       renderDashboard();
-      showToast('Edit the entry above and tap Save', 'info');
-    }, 80);
-  }, 80);
+      showToast('Edit the entry and tap Save', 'info');
+    }, 100);
+  }, 120);
 }
 
 function deleteTxn(id) {
