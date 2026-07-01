@@ -1,5 +1,5 @@
 // ============================================================
-// SYNDY WALLET — app.js  v13
+// SYNDY WALLET — app.js  v14
 // Model B: Checkpoint-based balance system
 // SYNDY Governance | Rahul Kelkar (Sole Authority)
 // ============================================================
@@ -46,6 +46,29 @@ const ACCOUNTS = [
   } catch(e) {}
 })();
 
+// ── JUNE 2026 DATA RESTORE ─────────────────────────────────────
+// Restores all 154 June 2026 transactions lost in the file/virus
+// incident on 30 June 2026. Runs ONCE per device — safe to redeploy.
+// After injection, stamps sw_june_restored=1 and never runs again.
+(function restoreJuneData() {
+  try {
+    if (localStorage.getItem('sw_june_restored') === '1') return;
+    const raw = localStorage.getItem('sw_txns');
+    const existing = raw ? JSON.parse(raw) : [];
+    const hasJune = existing.some(t => t.date && t.date.startsWith('2026-06'));
+    if (hasJune) {
+      localStorage.setItem('sw_june_restored', '1');
+      return;
+    }
+    const juneTxns = [{"id": "0cedac94-e8bd-4e6f-9adb-6f4dfef6519f", "date": "2026-06-01", "type": "Expense", "amount": 238.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "BF-Milk", "notes": ""}, {"id": "d2215597-eba4-417a-b2d0-17e103174654", "date": "2026-06-01", "type": "Expense", "amount": 155.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Thums Up", "notes": ""}, {"id": "a11ecc6d-0c17-453d-a2d6-890175e0c6ea", "date": "2026-06-01", "type": "Expense", "amount": 140.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Coconut Water", "notes": ""}, {"id": "7e2d4bb5-8f6e-4137-8bde-e3f24cf89927", "date": "2026-06-01", "type": "Expense", "amount": 113.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "BF-Eggs", "notes": ""}, {"id": "5440618c-2e39-4e0e-ba91-db2ad0e14e79", "date": "2026-06-01", "type": "Expense", "amount": 114.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Sugar & Others", "notes": ""}, {"id": "9d6a4ea7-ba62-46f3-aa61-eac4f891833d", "date": "2026-06-01", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Shrikhand", "notes": ""}, {"id": "5073c7ed-39da-4dce-9469-74ecb28a5f46", "date": "2026-06-01", "type": "Expense", "amount": 13.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Delivery charges", "notes": ""}, {"id": "b5caaf3d-55ff-4960-81dc-4c92a4214505", "date": "2026-06-01", "type": "Expense", "amount": 62.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Amul Masti", "notes": ""}, {"id": "a0249aa7-8a38-4289-9bd1-1eff3905d1d0", "date": "2026-06-01", "type": "Expense", "amount": 284.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "BF-Coffee", "notes": ""}, {"id": "9c8d526c-082e-4fe7-b514-8904b848ccf3", "date": "2026-06-03", "type": "Expense", "amount": 120.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Health", "subcategory": "Medicines", "notes": "Dentist"}, {"id": "6a44a45f-2f61-4bce-96e3-24ecbd320da6", "date": "2026-06-01", "type": "Expense", "amount": 27.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Amul Masti", "notes": ""}, {"id": "8aa085a1-dedc-4fdf-be42-97c9f84f642c", "date": "2026-06-01", "type": "Expense", "amount": 399.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Lifestyle", "subcategory": "AI-Astra", "notes": "Astra"}, {"id": "81b651ed-de1f-42c9-9d13-508ab9d28e3d", "date": "2026-06-01", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "10e5d9fd-083f-4c23-acb4-bdd25420dd13", "date": "2026-06-02", "type": "Income", "amount": 5001.0, "fromAccount": "", "toAccount": "ICICI Savings", "category": "Income", "subcategory": "Professional Fees", "notes": "Sarika"}, {"id": "28c76e7c-4eb7-4761-bdc6-981a3254ce2a", "date": "2026-06-02", "type": "Transfer", "amount": 4500.0, "fromAccount": "ICICI Savings", "toAccount": "Kotak Savings", "category": "Internal", "subcategory": "", "notes": ""}, {"id": "ee852e5a-c159-4088-aaa0-555a2eac9fb5", "date": "2026-06-02", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "b73d1a0a-1e66-4091-97cd-e7726bfc09de", "date": "2026-06-03", "type": "Income", "amount": 0.01, "fromAccount": "", "toAccount": "ICICI Savings", "category": "Income", "subcategory": "Sav Int-ICICI", "notes": ""}, {"id": "5d686d36-1ab7-4a53-a37c-0baf2784e118", "date": "2026-06-02", "type": "Transfer", "amount": 4500.0, "fromAccount": "Kotak Savings", "toAccount": "Kotak LAS OD", "category": "Internal", "subcategory": "", "notes": ""}, {"id": "1e3eebe0-f1e1-4ff8-8214-dbf4983f0b70", "date": "2026-06-01", "type": "Expense", "amount": 598.0, "fromAccount": "Kotak LAS OD", "toAccount": "", "category": "Misc", "subcategory": "Online Charges", "notes": ""}, {"id": "81f2941e-6bf1-48de-a19e-2bebf3d3f9ad", "date": "2026-06-03", "type": "Transfer", "amount": 1000.0, "fromAccount": "Kotak LAS OD", "toAccount": "ICICI Savings", "category": "Internal", "subcategory": "", "notes": ""}, {"id": "507399f0-7dea-4478-be7e-45ab571063ca", "date": "2026-06-04", "type": "Expense", "amount": 57.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Misc", "subcategory": "Tobacco", "notes": ""}, {"id": "119c182f-e3fb-45c9-99c9-055807bcaefd", "date": "2026-06-04", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "7ff8bbf1-2fea-49bd-a766-26f2fb75ef8e", "date": "2026-06-04", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "bdb8963c-a8a1-4cd6-9703-7735fed0101e", "date": "2026-06-05", "type": "Transfer", "amount": 1000.0, "fromAccount": "Kotak LAS OD", "toAccount": "ICICI Savings", "category": "Internal", "subcategory": "", "notes": ""}, {"id": "bb2037cc-d577-4186-9bc1-57e904ee7683", "date": "2026-06-05", "type": "Expense", "amount": 140.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Amul Masti", "notes": ""}, {"id": "2e9c649e-82cc-462b-b995-417c4964e088", "date": "2026-06-05", "type": "Expense", "amount": 117.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Thums Up", "notes": ""}, {"id": "952467f2-c6b5-473a-bb2e-080ffa195895", "date": "2026-06-05", "type": "Expense", "amount": 140.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Coconut Water", "notes": ""}, {"id": "49ed2bbe-3c30-41a0-acfc-3c1e67ac697d", "date": "2026-06-05", "type": "Expense", "amount": 48.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Salt & Pepper etc", "notes": "Halad"}, {"id": "bad9a358-d0db-41c5-91fa-5fda5a8d648a", "date": "2026-06-05", "type": "Expense", "amount": 13.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Delivery charges", "notes": ""}, {"id": "d31813dc-a735-4f17-bcc9-217a91bcfd3a", "date": "2026-06-05", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "4c946e7f-7d76-42bd-84fd-dc62dc0bda8b", "date": "2026-06-05", "type": "Expense", "amount": 108.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Utilities", "subcategory": "Ironing", "notes": ""}, {"id": "07a6eb90-c936-4ea1-b870-95a0162d7159", "date": "2026-06-05", "type": "Expense", "amount": 25000.0, "fromAccount": "Kotak LAS OD", "toAccount": "", "category": "Housing", "subcategory": "Rent-Landlord", "notes": "June"}, {"id": "fc23588e-06cc-4890-9d75-3597fdbf983f", "date": "2026-06-06", "type": "Expense", "amount": 3630.9, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Housing", "subcategory": "Rent Mojo", "notes": ""}, {"id": "ff9992f2-654f-4a58-a427-e2e3cd207d8d", "date": "2026-06-06", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "dac14319-e515-4640-9643-d8c3f5f71e6f", "date": "2026-06-06", "type": "Transfer", "amount": 4200.0, "fromAccount": "Kotak LAS OD", "toAccount": "ICICI Savings", "category": "Internal", "subcategory": "", "notes": ""}, {"id": "5bd894a9-544b-4a34-8d5f-8b2f0c68fbd0", "date": "2026-06-05", "type": "Income", "amount": 57000.0, "fromAccount": "", "toAccount": "Kotak Savings", "category": "Income", "subcategory": "Rent-Prathana", "notes": "June"}, {"id": "9300bbdb-cc00-4938-8454-0c9bd3fcd834", "date": "2026-06-06", "type": "Transfer", "amount": 57000.0, "fromAccount": "Kotak Savings", "toAccount": "Kotak LAS OD", "category": "Internal", "subcategory": "", "notes": "Od repay"}, {"id": "e2dd32f5-1f38-4867-aaa4-391ff6a71005", "date": "2026-06-06", "type": "Expense", "amount": 199.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Lifestyle", "subcategory": "Netflix", "notes": ""}, {"id": "da683ba1-0bf0-450c-b35b-fe75a5f6aa67", "date": "2026-06-06", "type": "Expense", "amount": 532.18, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Utilities", "subcategory": "Postpaid Vi", "notes": ""}, {"id": "16e030e4-53ad-47d6-abf9-53b547530391", "date": "2026-06-07", "type": "Transfer", "amount": 1500.0, "fromAccount": "Kotak LAS OD", "toAccount": "ICICI Savings", "category": "Internal", "subcategory": "", "notes": ""}, {"id": "9b476978-f0c5-45a3-8fee-4b9971b457cb", "date": "2026-06-07", "type": "Expense", "amount": 1000.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Utilities", "subcategory": "Ironing", "notes": "AC service"}, {"id": "3c6ebd8e-08ea-4135-aaf6-52c68e0c7195", "date": "2026-06-07", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "a60bdabf-62dc-4ac6-a9b9-00912e9adb26", "date": "2026-06-08", "type": "Transfer", "amount": 1000.0, "fromAccount": "Kotak LAS OD", "toAccount": "ICICI Savings", "category": "Internal", "subcategory": "", "notes": ""}, {"id": "f0bc460a-c546-4143-a6f5-44b213896acf", "date": "2026-06-08", "type": "Expense", "amount": 122.0, "fromAccount": "Cash", "toAccount": "", "category": "Misc", "subcategory": "Transport-Auto", "notes": ""}, {"id": "a47dd899-8346-4f19-9021-c1e9618bd43e", "date": "2026-06-08", "type": "Expense", "amount": 30.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Snacks-Outside", "notes": "Sugar cane"}, {"id": "656b03f2-9cf5-4042-badd-9ac161b5a81a", "date": "2026-06-08", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "a174732b-397b-4513-9fd8-bb608ea1c8e8", "date": "2026-06-08", "type": "Transfer", "amount": 2000.0, "fromAccount": "Kotak LAS OD", "toAccount": "ICICI Savings", "category": "Internal", "subcategory": "", "notes": ""}, {"id": "d38f3458-b183-41c1-ac84-b2d929ca01f9", "date": "2026-06-08", "type": "Expense", "amount": 2000.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Lifestyle", "subcategory": "AI-Astra", "notes": "8gb ram"}, {"id": "a9867169-8433-4add-99ae-70a650e6781d", "date": "2026-06-08", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Misc", "subcategory": "Transport-Auto", "notes": ""}, {"id": "e7a60e44-88fd-49ff-abb3-5ad83755c348", "date": "2026-06-09", "type": "Expense", "amount": 120.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Thums Up", "notes": ""}, {"id": "94731915-8c61-461b-b702-f77be7dd2aa6", "date": "2026-06-09", "type": "Expense", "amount": 140.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Amul Masti", "notes": ""}, {"id": "2f684eca-d69e-42af-adcc-0626963e35c7", "date": "2026-06-09", "type": "Expense", "amount": 140.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Coconut Water", "notes": ""}, {"id": "22ae8dce-c8a3-410a-b42a-f55e49d7c555", "date": "2026-06-09", "type": "Expense", "amount": 40.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Thums Up", "notes": ""}, {"id": "5f6f3fb4-f5a3-4558-9e76-4fac3f9a27c1", "date": "2026-06-09", "type": "Expense", "amount": 115.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "BF-Eggs", "notes": ""}, {"id": "15794bd6-3951-43c9-95c0-711b2d66ee14", "date": "2026-06-09", "type": "Expense", "amount": 15.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Delivery charges", "notes": ""}, {"id": "2afdedf4-9b0e-4cf5-a48c-d24a56db8c36", "date": "2026-06-11", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "5fadf593-9bf4-47f0-9f4a-ce6e502e57c8", "date": "2026-06-12", "type": "Expense", "amount": 3500.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Utilities", "subcategory": "Internet", "notes": ""}, {"id": "108375ee-c586-4508-8f41-71a8c5dfe871", "date": "2026-06-11", "type": "Expense", "amount": 57.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Misc", "subcategory": "Tobacco", "notes": ""}, {"id": "570f90d2-6dd1-4d56-b943-26815608ae00", "date": "2026-06-11", "type": "Expense", "amount": 150.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Personal", "subcategory": "Haircutting", "notes": ""}, {"id": "f0f4bcfe-8404-4e40-8d0f-42e8d7bf55f0", "date": "2026-06-12", "type": "Expense", "amount": 135.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "974f41c7-7380-4003-a0ac-c189be508cf7", "date": "2026-06-12", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "15846d3e-8be7-4ef9-a3fc-be36bd2e69ea", "date": "2026-06-12", "type": "Expense", "amount": 289.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "BF-Milk", "notes": "17"}, {"id": "78569e02-b42b-4d09-9a96-74903e22192f", "date": "2026-06-12", "type": "Expense", "amount": 111.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Thums Up", "notes": "3 750"}, {"id": "4af1b9a1-0988-42e7-84ea-1fe873f1f2bf", "date": "2026-06-12", "type": "Expense", "amount": 146.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Coconut Water", "notes": ""}, {"id": "9cc109c7-3b3f-4809-a57e-43f3ff504356", "date": "2026-06-12", "type": "Expense", "amount": 11.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Delivery charges", "notes": ""}, {"id": "1c255377-1d16-4f7a-8c88-02405a3d307a", "date": "2026-06-12", "type": "Transfer", "amount": 500.0, "fromAccount": "Kotak LAS OD", "toAccount": "ICICI Savings", "category": "Internal", "subcategory": "", "notes": ""}, {"id": "aa1d17fb-3fb0-4f2f-8deb-35461a5f9ded", "date": "2026-06-11", "type": "Transfer", "amount": 4000.0, "fromAccount": "Kotak LAS OD", "toAccount": "ICICI Savings", "category": "Internal", "subcategory": "", "notes": ""}, {"id": "49e96c60-6be7-4b00-b0cd-37980e7b24a8", "date": "2026-06-13", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "34f97730-3b84-411e-a15e-0e7a5293b04c", "date": "2026-06-14", "type": "Expense", "amount": 1640.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Utilities", "subcategory": "Electricity", "notes": ""}, {"id": "1312ac9e-0657-4c9e-80a5-6d401eb1038d", "date": "2026-06-14", "type": "Transfer", "amount": 2000.0, "fromAccount": "Kotak LAS OD", "toAccount": "ICICI Savings", "category": "Internal", "subcategory": "", "notes": ""}, {"id": "effa3303-f8d3-496b-972a-54401ce0f0ca", "date": "2026-06-14", "type": "Expense", "amount": 330.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Nonveg-Chicken", "notes": ""}, {"id": "9f328572-e89c-433d-88aa-3ef4b7a1ae9b", "date": "2026-06-15", "type": "Expense", "amount": 2050.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Housing", "subcategory": "Rent-Landlord", "notes": ""}, {"id": "eadd5ab7-ba8e-4eac-af7f-1b83443a4933", "date": "2026-06-15", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "e8818c0c-4e2d-4f1f-874a-912e61ceed05", "date": "2026-06-15", "type": "Expense", "amount": 140.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Coconut Water", "notes": ""}, {"id": "e485919c-8f24-4d60-aa30-d9971593988b", "date": "2026-06-15", "type": "Expense", "amount": 140.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Amul Masti", "notes": ""}, {"id": "1a397040-0d01-4a55-9ee4-f57fa7b5e54e", "date": "2026-06-15", "type": "Expense", "amount": 155.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Thums Up", "notes": ""}, {"id": "89c66fa3-6c69-45cf-9f2e-92907af85313", "date": "2026-06-16", "type": "Expense", "amount": 75.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Misc", "subcategory": "Tobacco", "notes": ""}, {"id": "028b3131-779a-4208-894b-88110b2b88c6", "date": "2026-06-16", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "29c85b7c-9945-43c0-81fd-581385bbebc3", "date": "2026-06-16", "type": "Expense", "amount": 135.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Dinner-Tiffin", "notes": ""}, {"id": "7e6327ec-8b2c-4c68-bacb-021ffaa077a0", "date": "2026-06-17", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "d52d6ebf-4125-41c4-9716-e897ebf83666", "date": "2026-06-16", "type": "Income", "amount": 3000.0, "fromAccount": "", "toAccount": "ICICI Savings", "category": "Income", "subcategory": "Professional Fees", "notes": ""}, {"id": "7a7a7783-2f2a-480e-ab06-27297fbaee99", "date": "2026-06-15", "type": "Transfer", "amount": 2500.0, "fromAccount": "Kotak LAS OD", "toAccount": "ICICI Savings", "category": "Internal", "subcategory": "", "notes": ""}, {"id": "21257958-ab8c-44d5-b2e4-a694a983abbf", "date": "2026-06-15", "type": "Expense", "amount": 13.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Delivery charges", "notes": ""}, {"id": "c0aa90e7-e58b-4127-83f8-76043d2221c2", "date": "2026-06-17", "type": "Expense", "amount": 135.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Dinner-Tiffin", "notes": ""}, {"id": "23a30155-2f35-487e-af09-864ea84a21e8", "date": "2026-06-17", "type": "Expense", "amount": 500.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Misc", "subcategory": "Online Charges", "notes": ""}, {"id": "4daedf30-8645-4c3a-8023-f5e78fdcd23b", "date": "2026-06-18", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "9a0e69dd-1440-4e4b-a802-6d1958fa9fa4", "date": "2026-06-18", "type": "Expense", "amount": 615.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "BF-Muselli", "notes": ""}, {"id": "1c823b87-4b1c-484d-967e-edbd41838367", "date": "2026-06-18", "type": "Expense", "amount": 190.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Personal", "subcategory": "Rituals", "notes": "Laxmi"}, {"id": "0227db4a-e502-427d-b710-843f9eb5ce63", "date": "2026-06-19", "type": "Expense", "amount": 56.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Misc", "subcategory": "Tobacco", "notes": ""}, {"id": "d00f05b5-60dd-4858-a31f-ae23789ad473", "date": "2026-06-19", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "c8b5f139-72d8-4b11-857d-dba338a6e08d", "date": "2026-06-19", "type": "Expense", "amount": 135.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Dinner-Tiffin", "notes": ""}, {"id": "ba0adf36-c33c-42db-8669-d33c33fa51e0", "date": "2026-06-19", "type": "Expense", "amount": 140.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Coconut Water", "notes": ""}, {"id": "2a2a8559-a088-4ccd-8b6a-80e5e101b863", "date": "2026-06-19", "type": "Expense", "amount": 155.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Thums Up", "notes": ""}, {"id": "113a6c3d-d81e-4f3c-8796-0cbe6bf2964c", "date": "2026-06-19", "type": "Expense", "amount": 40.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Thums Up", "notes": ""}, {"id": "8778b81c-4753-407c-a56f-c5f717348526", "date": "2026-06-19", "type": "Expense", "amount": 75.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Amul Masti", "notes": ""}, {"id": "e6567b36-606d-464f-921f-9f334c3eec94", "date": "2026-06-19", "type": "Expense", "amount": 57.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Sugar & Others", "notes": ""}, {"id": "64f77f44-2f6a-40cb-865f-43d4b9507bf3", "date": "2026-06-19", "type": "Expense", "amount": 13.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Delivery charges", "notes": ""}, {"id": "8e3c7624-1111-4882-94c1-3a74889a7d2e", "date": "2026-06-20", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "1ff447e0-74bb-4400-b1a9-0662f22e8a6a", "date": "2026-06-20", "type": "Expense", "amount": 135.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "c41a0385-9ec4-4d93-991a-648301dfb7b2", "date": "2026-06-21", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "866648bc-5a1d-485f-a5ce-452317f81366", "date": "2026-06-21", "type": "Expense", "amount": 135.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Dinner-Tiffin", "notes": ""}, {"id": "fe8831ed-ab38-404f-baca-6cb278429ea0", "date": "2026-06-21", "type": "Transfer", "amount": 1000.0, "fromAccount": "Kotak LAS OD", "toAccount": "ICICI Savings", "category": "Internal", "subcategory": "", "notes": ""}, {"id": "691a8f3a-1de1-4787-8805-056816753bca", "date": "2026-06-22", "type": "Transfer", "amount": 1000.0, "fromAccount": "Kotak LAS OD", "toAccount": "ICICI Savings", "category": "Internal", "subcategory": "", "notes": ""}, {"id": "fdce37e7-ab16-4176-b9f3-4fec0667bdc1", "date": "2026-06-22", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "ab18a1e4-27d4-4dc0-8f77-3e8af8ad17b2", "date": "2026-06-22", "type": "Expense", "amount": 135.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Dinner-Tiffin", "notes": ""}, {"id": "7430892f-85a3-481e-b59f-d539b933f2c3", "date": "2026-06-22", "type": "Expense", "amount": 140.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Coconut Water", "notes": ""}, {"id": "630531f9-c9e8-4b1e-ba36-c004f0aab149", "date": "2026-06-22", "type": "Expense", "amount": 140.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Amul Masti", "notes": ""}, {"id": "fa17e13d-11c7-4a23-b171-ee3a822d3fa3", "date": "2026-06-22", "type": "Expense", "amount": 155.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Thums Up", "notes": ""}, {"id": "a7672862-e6dc-4c27-a311-496015d431d4", "date": "2026-06-22", "type": "Expense", "amount": 100.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Amul Masti", "notes": ""}, {"id": "fc61dbcd-8047-4e1b-8d8e-feb0e43d151f", "date": "2026-06-22", "type": "Expense", "amount": 13.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Delivery charges", "notes": ""}, {"id": "7367510f-13e2-488d-a6f0-87f74e274aaf", "date": "2026-06-23", "type": "Expense", "amount": 700.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Health", "subcategory": "Doctor", "notes": ""}, {"id": "b9544fb6-2bdf-4b58-b930-b97b169ebdd0", "date": "2026-06-23", "type": "Expense", "amount": 65.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Misc", "subcategory": "Tobacco", "notes": ""}, {"id": "b0d5b6d5-3d71-40c7-a32a-1cd4135bf281", "date": "2026-06-23", "type": "Expense", "amount": 135.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Dinner-Tiffin", "notes": ""}, {"id": "138a7b10-beea-4539-bc9f-78a4c6f4cd69", "date": "2026-06-23", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "1b062307-1974-446d-a51a-2562afefa4d9", "date": "2026-06-24", "type": "Expense", "amount": 5164.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Health", "subcategory": "Medicines", "notes": ""}, {"id": "d9e44429-5b0e-4cdf-ac04-819d8a87bb7e", "date": "2026-06-24", "type": "Expense", "amount": 117.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Health", "subcategory": "Medicines", "notes": ""}, {"id": "c7a6fe97-e348-470f-9cae-ea30397aae61", "date": "2026-06-24", "type": "Expense", "amount": 135.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Dinner-Tiffin", "notes": ""}, {"id": "ee18528d-7176-43f1-8b35-19a77ca74f19", "date": "2026-06-24", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "87fa7bd0-cde6-4d40-9035-311688c8d5ce", "date": "2026-06-24", "type": "Transfer", "amount": 6000.0, "fromAccount": "Kotak LAS OD", "toAccount": "ICICI Savings", "category": "Internal", "subcategory": "", "notes": ""}, {"id": "6433dc82-58d6-4726-9b8e-1d1a40d678e9", "date": "2026-06-24", "type": "Transfer", "amount": 1000.0, "fromAccount": "Kotak LAS OD", "toAccount": "ICICI Savings", "category": "Internal", "subcategory": "", "notes": ""}, {"id": "86931410-a9b0-4acb-bb6c-39150d495aa3", "date": "2026-06-27", "type": "Transfer", "amount": 3000.0, "fromAccount": "Kotak LAS OD", "toAccount": "ICICI Savings", "category": "Internal", "subcategory": "", "notes": ""}, {"id": "201faecf-ef3f-43cb-b80f-eef6ca55944b", "date": "2026-06-29", "type": "Transfer", "amount": 1000.0, "fromAccount": "Kotak LAS OD", "toAccount": "ICICI Savings", "category": "Internal", "subcategory": "", "notes": ""}, {"id": "80e0be5e-4645-4f50-8473-d1b2f47c7ef2", "date": "2026-06-25", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "25374de2-ca09-40ab-8e1f-1481f46b4145", "date": "2026-06-27", "type": "Expense", "amount": 135.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Dinner-Tiffin", "notes": ""}, {"id": "9315213a-4ddf-4279-954d-a8b873a757f0", "date": "2026-06-26", "type": "Expense", "amount": 135.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Dinner-Tiffin", "notes": ""}, {"id": "c716ea01-ef08-4807-a213-860ed30ecbaa", "date": "2026-06-26", "type": "Expense", "amount": 476.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "BF-Milk", "notes": ""}, {"id": "7f9305fc-465d-468a-9f03-4c4161f6e8bf", "date": "2026-06-26", "type": "Expense", "amount": 117.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Thums Up", "notes": ""}, {"id": "40155a2b-af36-4711-85b5-095042d5dc2a", "date": "2026-06-26", "type": "Expense", "amount": 140.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Coconut Water", "notes": ""}, {"id": "120349cf-0d83-4060-9086-47e7f4901200", "date": "2026-06-26", "type": "Expense", "amount": 165.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Shrikhand", "notes": ""}, {"id": "73424e5b-71c9-420b-920c-6eb20da5030c", "date": "2026-06-26", "type": "Expense", "amount": 165.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Fruits-Apple-Banana", "notes": ""}, {"id": "f9f25309-e0e9-4293-b8fd-93444d15f5b7", "date": "2026-06-26", "type": "Expense", "amount": 13.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Delivery charges", "notes": ""}, {"id": "542a68f7-8666-493d-82f1-dd31aea0ff9c", "date": "2026-06-30", "type": "Expense", "amount": 361.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Fruits-Others", "notes": ""}, {"id": "0c9a2b14-57eb-466b-803a-2b1387ba5f4c", "date": "2026-06-27", "type": "Expense", "amount": 2600.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Misc", "subcategory": "Others", "notes": ""}, {"id": "fa2def03-3e72-4f82-b91b-b7a8034be870", "date": "2026-06-28", "type": "Expense", "amount": 135.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Dinner-Tiffin", "notes": ""}, {"id": "c02245d1-7c75-4ae6-81b3-7c46f8725cb9", "date": "2026-06-28", "type": "Expense", "amount": 57.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Misc", "subcategory": "Tobacco", "notes": ""}, {"id": "41938cbf-b54c-410b-b56e-56e78bece8a0", "date": "2026-06-28", "type": "Expense", "amount": 58.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Health", "subcategory": "Medicines", "notes": ""}, {"id": "ab4edc53-d7eb-42a7-b63d-d406cde443a7", "date": "2026-06-30", "type": "Expense", "amount": 110.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Misc", "subcategory": "Others", "notes": "Knife"}, {"id": "44b84e03-d743-48f4-a72a-a5c71c7a5e7f", "date": "2026-06-29", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "4305496c-3d6a-465d-81ad-c7bc66969c03", "date": "2026-06-29", "type": "Expense", "amount": 155.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Thums Up", "notes": ""}, {"id": "bb1ee305-e586-4b40-8012-d0f86938ec86", "date": "2026-06-29", "type": "Expense", "amount": 140.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Amul Masti", "notes": ""}, {"id": "2df52973-40fb-415c-9f7a-ed65b2c40104", "date": "2026-06-29", "type": "Expense", "amount": 57.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Sugar & Others", "notes": ""}, {"id": "b0ed17aa-3376-47e6-9ac1-eae0a1bea057", "date": "2026-06-29", "type": "Expense", "amount": 125.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Shrikhand", "notes": ""}, {"id": "61ff2000-fde7-40ff-afee-bbb6884af44f", "date": "2026-06-29", "type": "Expense", "amount": 13.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Delivery charges", "notes": ""}, {"id": "614491ae-a06c-43d3-89ea-fb2229285504", "date": "2026-06-29", "type": "Transfer", "amount": 1000.0, "fromAccount": "Kotak LAS OD", "toAccount": "ICICI Savings", "category": "Internal", "subcategory": "", "notes": ""}, {"id": "34bb801a-6267-4f35-b949-1d1eef709bff", "date": "2026-06-29", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "49b05ce7-ce1c-4c18-8aee-734ffb5aebe9", "date": "2026-06-30", "type": "Expense", "amount": 300.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Misc", "subcategory": "Others", "notes": "Xerox"}, {"id": "307ba3b8-6c9a-4209-99db-86600b31bb72", "date": "2026-06-30", "type": "Transfer", "amount": 1000.0, "fromAccount": "Kotak LAS OD", "toAccount": "ICICI Savings", "category": "Internal", "subcategory": "", "notes": ""}, {"id": "4ba252da-2ae9-4e05-8212-3fb66533b50b", "date": "2026-06-30", "type": "Expense", "amount": 214.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Housing", "subcategory": "Phenol-Harpic", "notes": ""}, {"id": "d0837169-659d-4fb1-8d02-9532b16e4a72", "date": "2026-06-30", "type": "Expense", "amount": 160.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Housing", "subcategory": "Washing Powder", "notes": ""}, {"id": "68c01481-db0d-42d2-965a-c0b9e30d3a8a", "date": "2026-06-30", "type": "Expense", "amount": 13.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Grocery", "subcategory": "Delivery charges", "notes": ""}, {"id": "ad50c7b1-4455-4aea-92a3-d98060026461", "date": "2026-06-30", "type": "Expense", "amount": 99.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Housing", "subcategory": "Snabbit", "notes": ""}, {"id": "7cb34ebd-a416-457a-a248-9f0eecafeef1", "date": "2026-06-30", "type": "Expense", "amount": 130.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Lunch-Tiffin", "notes": ""}, {"id": "bcd61a1b-35d1-4518-b057-c5486c3e637b", "date": "2026-06-29", "type": "Expense", "amount": 260.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Dinner-Tiffin", "notes": ""}, {"id": "16c02045-a128-4090-ab7c-53705911208c", "date": "2026-06-30", "type": "Expense", "amount": 109.0, "fromAccount": "ICICI Savings", "toAccount": "", "category": "Food", "subcategory": "Dinner-Tiffin", "notes": ""}];
+    const merged = [...juneTxns, ...existing.filter(t => !t.date || !t.date.startsWith('2026-06'))];
+    localStorage.setItem('sw_txns', JSON.stringify(merged));
+    localStorage.setItem('sw_june_restored', '1');
+    console.log('[SYNDY RESTORE] June 2026 restored: 154 transactions injected.');
+  } catch(e) { console.error('[SYNDY RESTORE] Failed:', e); }
+})();
+
+
 const EXP_CATS = ['Food','Grocery','Housing','Utilities','Health','Personal','Lifestyle','Misc'];
 const INC_SUBS = ['Salary','Professional Fees','Sav Int-Kotak','Sav Int-ICICI','Bond Interest'];
 
@@ -65,13 +88,155 @@ const CATEGORIES = {
   }
 };
 
-// ── STORAGE ──────────────────────────────────────────────────
-function loadTxns()       { try { return JSON.parse(localStorage.getItem('sw_txns') || '[]'); } catch { return []; } }
-function saveTxns(d)      { localStorage.setItem('sw_txns', JSON.stringify(d)); }
+// ── STORAGE v14 — DUAL LAYER + AUTO BACKUP ───────────────────
+// Layer 1: localStorage (primary, instant)
+// Layer 2: IndexedDB via mirror (secondary, survives localStorage clear)
+// Layer 3: GitHub Gist (optional cloud, user-configured)
+// Auto-backup: every saveTxns() call mirrors to IndexedDB
+// Manual backup: "Backup Now" button exports full JSON snapshot
+
+// ── IndexedDB Mirror ──────────────────────────────────────────
+const IDB_NAME = 'syndy_backup_v1';
+const IDB_STORE = 'snapshots';
+
+function idbOpen() {
+  return new Promise((res, rej) => {
+    const req = indexedDB.open(IDB_NAME, 1);
+    req.onupgradeneeded = e => e.target.result.createObjectStore(IDB_STORE, { keyPath: 'key' });
+    req.onsuccess = e => res(e.target.result);
+    req.onerror   = () => rej(req.error);
+  });
+}
+
+async function idbSet(key, value) {
+  try {
+    const db = await idbOpen();
+    return new Promise((res, rej) => {
+      const tx = db.transaction(IDB_STORE, 'readwrite');
+      tx.objectStore(IDB_STORE).put({ key, value, ts: Date.now() });
+      tx.oncomplete = () => res(true);
+      tx.onerror    = () => rej(tx.error);
+    });
+  } catch(e) { console.warn('[SYNDY] IDB write failed:', e); }
+}
+
+async function idbGet(key) {
+  try {
+    const db = await idbOpen();
+    return new Promise((res, rej) => {
+      const req = db.transaction(IDB_STORE, 'readonly').objectStore(IDB_STORE).get(key);
+      req.onsuccess = () => res(req.result?.value ?? null);
+      req.onerror   = () => rej(req.error);
+    });
+  } catch(e) { return null; }
+}
+
+// ── Primary load/save with IDB mirror ────────────────────────
+function loadTxns() {
+  try { return JSON.parse(localStorage.getItem('sw_txns') || '[]'); }
+  catch { return []; }
+}
+
+function saveTxns(d) {
+  const json = JSON.stringify(d);
+  localStorage.setItem('sw_txns', json);
+  // Mirror to IndexedDB silently
+  idbSet('sw_txns', json).catch(() => {});
+  // Update last-saved timestamp
+  localStorage.setItem('sw_last_backup_auto', Date.now().toString());
+}
+
 function loadReminders()  { try { return JSON.parse(localStorage.getItem('sw_reminders') || '[]'); } catch { return []; } }
-function saveReminders(d) { localStorage.setItem('sw_reminders', JSON.stringify(d)); }
+function saveReminders(d) {
+  localStorage.setItem('sw_reminders', JSON.stringify(d));
+  idbSet('sw_reminders', JSON.stringify(d)).catch(() => {});
+}
 function loadBudgets()    { try { return JSON.parse(localStorage.getItem('sw_budgets') || '{}'); } catch { return {}; } }
-function saveBudgets(d)   { localStorage.setItem('sw_budgets', JSON.stringify(d)); }
+function saveBudgets(d)   {
+  localStorage.setItem('sw_budgets', JSON.stringify(d));
+  idbSet('sw_budgets', JSON.stringify(d)).catch(() => {});
+}
+
+// ── IDB Recovery — restore from IndexedDB if localStorage is empty ──
+async function recoverFromIDB() {
+  const hasTxns = localStorage.getItem('sw_txns');
+  if (hasTxns && JSON.parse(hasTxns).length > 0) return; // localStorage is fine
+  const idbTxns = await idbGet('sw_txns');
+  if (idbTxns && idbTxns.length > 2) { // '[]' is 2 chars
+    localStorage.setItem('sw_txns', idbTxns);
+    const idbBudgets = await idbGet('sw_budgets');
+    if (idbBudgets) localStorage.setItem('sw_budgets', idbBudgets);
+    const idbReminders = await idbGet('sw_reminders');
+    if (idbReminders) localStorage.setItem('sw_reminders', idbReminders);
+    showToast('⚠ Data recovered from backup store. Please verify balances.', 'warn');
+    txns = loadTxns();
+    renderDashboard();
+  }
+}
+
+// ── Full Backup Snapshot (manual button) ─────────────────────
+function createBackupSnapshot() {
+  const snapshot = {
+    version: 'v14',
+    exportedAt: new Date().toISOString(),
+    exportedBy: 'Syndy Wallet Manual Backup',
+    sw_txns: loadTxns(),
+    sw_budgets: loadBudgets(),
+    sw_reminders: loadReminders(),
+    sw_checkpoints: loadCheckpoints()
+  };
+  return snapshot;
+}
+
+function downloadBackup() {
+  const snapshot = createBackupSnapshot();
+  const json = JSON.stringify(snapshot, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  const ts   = todayStr();
+  a.href     = url;
+  a.download = `syndy-backup-${ts}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  localStorage.setItem('sw_last_backup_manual', Date.now().toString());
+  showToast('✅ Backup downloaded: syndy-backup-' + ts + '.json', 'success');
+}
+
+// ── Restore from JSON backup file ────────────────────────────
+function restoreFromFile(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const snap = JSON.parse(e.target.result);
+      if (!snap.sw_txns) { showToast('❌ Invalid backup file', 'error'); return; }
+      showConfirm(
+        `Restore ${snap.sw_txns.length} transactions from backup dated ${snap.exportedAt?.slice(0,10)}? This will OVERWRITE current data.`,
+        () => {
+          localStorage.setItem('sw_txns', JSON.stringify(snap.sw_txns));
+          if (snap.sw_budgets)     localStorage.setItem('sw_budgets', JSON.stringify(snap.sw_budgets));
+          if (snap.sw_reminders)   localStorage.setItem('sw_reminders', JSON.stringify(snap.sw_reminders));
+          if (snap.sw_checkpoints) localStorage.setItem('sw_checkpoints', JSON.stringify(snap.sw_checkpoints));
+          txns = loadTxns();
+          renderDashboard();
+          showToast(`✅ Restored ${snap.sw_txns.length} transactions`, 'success');
+        }
+      );
+    } catch { showToast('❌ Could not read backup file', 'error'); }
+  };
+  reader.readAsText(file);
+}
+
+function backupStatusText() {
+  const auto   = localStorage.getItem('sw_last_backup_auto');
+  const manual = localStorage.getItem('sw_last_backup_manual');
+  const fmt = ts => {
+    if (!ts) return 'Never';
+    const d = new Date(parseInt(ts));
+    return d.toLocaleDateString('en-IN', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+  };
+  return { auto: fmt(auto), manual: fmt(manual) };
+}
 
 // ── CHECKPOINT STORAGE ────────────────────────────────────────
 // Schema: { "2026-05": { closedOn:"2026-06-01", balances:{Cash:X,...} }, ... }
@@ -610,6 +775,43 @@ function renderTxnCards() {
       cpStatus.innerHTML = `⚠ No checkpoint yet. Create one before deleting historical transactions.`;
     }
   }
+
+  // ── BACKUP PANEL ──
+  const bPanel = document.getElementById('backupPanel');
+  if (bPanel) {
+    const bStatus = backupStatusText();
+    const txnCount = txns.length;
+    const autoColor = bStatus.auto === 'Never' ? 'var(--expense)' : 'var(--accent)';
+    const manualColor = bStatus.manual === 'Never' ? '#f59e0b' : '#60a5fa';
+    bPanel.innerHTML = `
+      <div style="font-size:11px;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase;margin-bottom:12px">☁ Data Backup</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+        <div style="background:rgba(0,212,170,0.05);border:1px solid rgba(0,212,170,0.15);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:9px;color:var(--text3);letter-spacing:1px;margin-bottom:4px">AUTO BACKUP</div>
+          <div style="font-size:10px;font-weight:600;color:${autoColor}">${bStatus.auto}</div>
+          <div style="font-size:9px;color:var(--text3);margin-top:3px">IndexedDB mirror</div>
+        </div>
+        <div style="background:rgba(59,130,246,0.05);border:1px solid rgba(59,130,246,0.15);border-radius:10px;padding:10px;text-align:center">
+          <div style="font-size:9px;color:var(--text3);letter-spacing:1px;margin-bottom:4px">LAST MANUAL</div>
+          <div style="font-size:10px;font-weight:600;color:${manualColor}">${bStatus.manual}</div>
+          <div style="font-size:9px;color:var(--text3);margin-top:3px">${txnCount} transactions</div>
+        </div>
+      </div>
+      <button onclick="downloadBackup()" style="width:100%;padding:13px;background:linear-gradient(135deg,rgba(0,212,170,0.18),rgba(0,212,170,0.08));border:1px solid rgba(0,212,170,0.45);border-radius:10px;color:var(--accent);font-size:13px;font-weight:700;letter-spacing:0.5px;cursor:pointer;margin-bottom:8px">
+        ☁ Backup Now — Download JSON
+      </button>
+      <label style="width:100%;display:block;cursor:pointer">
+        <div style="width:100%;padding:11px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:var(--text2);font-size:12px;font-weight:600;text-align:center;letter-spacing:0.5px">
+          📂 Restore from Backup File
+        </div>
+        <input type="file" accept=".json" style="display:none" onchange="restoreFromFile(this.files[0])">
+      </label>
+      <div style="font-size:10px;color:var(--text3);margin-top:8px;line-height:1.6;text-align:center">
+        Auto-backup runs on every transaction save.<br>
+        Download manual backup before month-end closure.
+      </div>`;
+  }
+
   const search = document.getElementById('dataSearch').value.toLowerCase();
   const fType  = document.getElementById('dataFilterType').value;
   const fMonth = document.getElementById('dataFilterMonth').value;
@@ -1119,13 +1321,15 @@ function renderBudget() {
 
 // ── INIT ──────────────────────────────────────────────────────
 function init() {
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
+  if ('serviceWorker' in navigator) navigator.serviceWorker.register('/syndy-wallet/service-worker.js').catch(()=>{});
   const istDate = istNow();
   document.getElementById('dashDate').textContent = istDate.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
   document.getElementById('reportMonthPicker').value = currentMonth();
   const bp = document.getElementById('budgetMonthPicker');
   if (bp && !bp.value) bp.value = currentMonth();
   showPage('dashboard');
+  // Run IDB recovery check in background (won't interrupt normal load)
+  recoverFromIDB().catch(() => {});
 }
 
 document.addEventListener('DOMContentLoaded', init);

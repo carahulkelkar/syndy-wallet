@@ -1,46 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- V13 NUCLEAR CACHE KILL — runs before everything else -->
-  <script>
-    (function() {
-      // Step 1: Unregister ALL service workers
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(function(regs) {
-          regs.forEach(function(reg) { reg.unregister(); });
-        });
-      }
-      // Step 2: Delete ALL caches
-      if ('caches' in window) {
-        caches.keys().then(function(names) {
-          names.forEach(function(name) { caches.delete(name); });
-        });
-      }
-      // Step 3: Clear stale localStorage data (only if not already migrated)
-      if (localStorage.getItem('sw_v13_migrated') !== '1') {
-        try {
-          // Remove all pre-June checkpoints
-          var rawCp = localStorage.getItem('sw_checkpoints');
-          if (rawCp) {
-            var allCp = JSON.parse(rawCp);
-            Object.keys(allCp).forEach(function(k) {
-              if (k < '2026-06') delete allCp[k];
-            });
-            if (!Object.keys(allCp).length) localStorage.removeItem('sw_checkpoints');
-            else localStorage.setItem('sw_checkpoints', JSON.stringify(allCp));
-          }
-          // Remove all pre-June transactions
-          var rawTx = localStorage.getItem('sw_txns');
-          if (rawTx) {
-            var txns = JSON.parse(rawTx);
-            var kept = txns.filter(function(t) { return t.date && t.date >= '2026-06-01'; });
-            localStorage.setItem('sw_txns', JSON.stringify(kept));
-          }
-          localStorage.setItem('sw_v13_migrated', '1');
-        } catch(e) {}
-      }
-    })();
-  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#0a0a0f" />
@@ -200,6 +160,9 @@
     </div>
 
     <div id="txnCardList"></div>
+
+    <!-- BACKUP PANEL -->
+    <div class="card" style="margin-top:8px" id="backupPanel"></div>
 
     <!-- Delete & Export -->
     <div class="card" style="margin-top:8px">
