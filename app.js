@@ -68,6 +68,29 @@ const ACCOUNTS = [
   } catch(e) { console.error('[SYNDY RESTORE] Failed:', e); }
 })();
 
+// ── JUNE 2026 BUDGET RESTORE ──────────────────────────────────
+// Restores budget items lost in the 30 June 2026 data incident.
+// Runs ONCE — stamps sw_june_budget_restored to prevent re-injection.
+// NOTE: Amounts are best-estimate from screenshots. Review and edit
+// in Budget tab after restore. Carry-forward to July will auto-run.
+(function restoreJuneBudgets() {
+  try {
+    if (localStorage.getItem('sw_june_budget_restored') === '1') return;
+    const raw = localStorage.getItem('sw_budgets');
+    const existing = raw ? JSON.parse(raw) : {};
+    if (existing['2026-06'] && existing['2026-06'].length > 0) {
+      localStorage.setItem('sw_june_budget_restored', '1');
+      return;
+    }
+    const juneBudgets = {"2026-06": [{"id": "13dbb5c8899e4558", "category": "Food", "subcategory": "BF-Coffee", "amount": 300}, {"id": "20ef4ae66e904390", "category": "Food", "subcategory": "BF-Eggs", "amount": 500}, {"id": "3bcc2d38b07b4b9a", "category": "Food", "subcategory": "BF-Milk", "amount": 510}, {"id": "d78af2eecc1e4f10", "category": "Food", "subcategory": "BF-Muselli", "amount": 700}, {"id": "477785c8aa6f47b3", "category": "Food", "subcategory": "Lunch-Tiffin", "amount": 3500}, {"id": "b2c94b844fd44e3e", "category": "Food", "subcategory": "Dinner-Tiffin", "amount": 1850}, {"id": "4856578d88a047ce", "category": "Food", "subcategory": "Nonveg-Chicken", "amount": 400}, {"id": "f5895591e9514467", "category": "Grocery", "subcategory": "Amul Masti", "amount": 500}, {"id": "9c9762fde6334a5e", "category": "Grocery", "subcategory": "Coconut Water", "amount": 500}, {"id": "679c9398fa5544c0", "category": "Grocery", "subcategory": "Thums Up", "amount": 1312}, {"id": "782b050a18f149fb", "category": "Grocery", "subcategory": "Shrikhand", "amount": 500}, {"id": "4a4524f2892843f2", "category": "Grocery", "subcategory": "Sugar & Others", "amount": 100}, {"id": "5f22f47a8cec4a01", "category": "Grocery", "subcategory": "Fruits-Apple-Banana", "amount": 200}, {"id": "65ac25d4c62547ea", "category": "Grocery", "subcategory": "Fruits-Others", "amount": 300}, {"id": "e7644472d2f64d2e", "category": "Housing", "subcategory": "Rent-Landlord", "amount": 24000}, {"id": "2d88436d93284a3d", "category": "Housing", "subcategory": "Rent Mojo", "amount": 3631}, {"id": "c747398776f04f3c", "category": "Housing", "subcategory": "Phenol-Harpic", "amount": 150}, {"id": "65cdd02271734238", "category": "Housing", "subcategory": "Washing Powder", "amount": 200}, {"id": "89d70927620440aa", "category": "Health", "subcategory": "Medicines", "amount": 3000}, {"id": "709bf75cacdf49c3", "category": "Health", "subcategory": "Doctor", "amount": 500}, {"id": "f2473f82a09e46fb", "category": "Utilities", "subcategory": "Electricity", "amount": 1640}, {"id": "ffc5abbe50c04a60", "category": "Utilities", "subcategory": "Internet", "amount": 3500}, {"id": "fb067f91a1d044e5", "category": "Utilities", "subcategory": "Postpaid Vi", "amount": 532}, {"id": "10201d88c8c7434d", "category": "Utilities", "subcategory": "Ironing", "amount": 900}, {"id": "113f386c96c9434f", "category": "Lifestyle", "subcategory": "AI-Astra", "amount": 2400}, {"id": "3a653908c0294290", "category": "Lifestyle", "subcategory": "Netflix", "amount": 199}, {"id": "8108a32d615a4504", "category": "Misc", "subcategory": "Tobacco", "amount": 300}, {"id": "c2cd4f6091624fd8", "category": "Misc", "subcategory": "Online Charges", "amount": 1000}, {"id": "a5791a9102fe483e", "category": "Misc", "subcategory": "Others", "amount": 1000}, {"id": "3a74795ab25c4600", "category": "Misc", "subcategory": "Transport-Auto", "amount": 300}, {"id": "a54a0bdbc2604450", "category": "Personal", "subcategory": "Haircutting", "amount": 150}, {"id": "8dd8c41cc7e74ffb", "category": "Personal", "subcategory": "Rituals", "amount": 200}]};
+    Object.assign(existing, juneBudgets);
+    localStorage.setItem('sw_budgets', JSON.stringify(existing));
+    localStorage.setItem('sw_june_budget_restored', '1');
+    console.log('[SYNDY RESTORE] June 2026 budgets restored: 32 items injected.');
+  } catch(e) { console.error('[SYNDY RESTORE] Budget restore failed:', e); }
+})();
+
+
 
 const EXP_CATS = ['Food','Grocery','Housing','Utilities','Health','Personal','Lifestyle','Misc'];
 const INC_SUBS = ['Salary','Professional Fees','Sav Int-Kotak','Sav Int-ICICI','Bond Interest'];
