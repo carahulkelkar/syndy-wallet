@@ -68,26 +68,26 @@ const ACCOUNTS = [
   } catch(e) { console.error('[SYNDY RESTORE] Failed:', e); }
 })();
 
-// ── JUNE 2026 BUDGET RESTORE ──────────────────────────────────
-// Restores budget items lost in the 30 June 2026 data incident.
-// Runs ONCE — stamps sw_june_budget_restored to prevent re-injection.
-// NOTE: Amounts are best-estimate from screenshots. Review and edit
-// in Budget tab after restore. Carry-forward to July will auto-run.
-(function restoreJuneBudgets() {
+// ── JUNE + JULY 2026 BUDGET RESTORE ──────────────────────────
+// Exact amounts from XLS pivot table. June=reference, July=working.
+// July will auto-carry-forward if you add more items or edit amounts.
+// Runs ONCE per device.
+(function restoreBudgets() {
   try {
-    if (localStorage.getItem('sw_june_budget_restored') === '1') return;
+    if (localStorage.getItem('sw_budgets_v14') === '1') return;
     const raw = localStorage.getItem('sw_budgets');
     const existing = raw ? JSON.parse(raw) : {};
-    if (existing['2026-06'] && existing['2026-06'].length > 0) {
-      localStorage.setItem('sw_june_budget_restored', '1');
-      return;
-    }
-    const juneBudgets = {"2026-06": [{"id": "13dbb5c8899e4558", "category": "Food", "subcategory": "BF-Coffee", "amount": 300}, {"id": "20ef4ae66e904390", "category": "Food", "subcategory": "BF-Eggs", "amount": 500}, {"id": "3bcc2d38b07b4b9a", "category": "Food", "subcategory": "BF-Milk", "amount": 510}, {"id": "d78af2eecc1e4f10", "category": "Food", "subcategory": "BF-Muselli", "amount": 700}, {"id": "477785c8aa6f47b3", "category": "Food", "subcategory": "Lunch-Tiffin", "amount": 3500}, {"id": "b2c94b844fd44e3e", "category": "Food", "subcategory": "Dinner-Tiffin", "amount": 1850}, {"id": "4856578d88a047ce", "category": "Food", "subcategory": "Nonveg-Chicken", "amount": 400}, {"id": "f5895591e9514467", "category": "Grocery", "subcategory": "Amul Masti", "amount": 500}, {"id": "9c9762fde6334a5e", "category": "Grocery", "subcategory": "Coconut Water", "amount": 500}, {"id": "679c9398fa5544c0", "category": "Grocery", "subcategory": "Thums Up", "amount": 1312}, {"id": "782b050a18f149fb", "category": "Grocery", "subcategory": "Shrikhand", "amount": 500}, {"id": "4a4524f2892843f2", "category": "Grocery", "subcategory": "Sugar & Others", "amount": 100}, {"id": "5f22f47a8cec4a01", "category": "Grocery", "subcategory": "Fruits-Apple-Banana", "amount": 200}, {"id": "65ac25d4c62547ea", "category": "Grocery", "subcategory": "Fruits-Others", "amount": 300}, {"id": "e7644472d2f64d2e", "category": "Housing", "subcategory": "Rent-Landlord", "amount": 24000}, {"id": "2d88436d93284a3d", "category": "Housing", "subcategory": "Rent Mojo", "amount": 3631}, {"id": "c747398776f04f3c", "category": "Housing", "subcategory": "Phenol-Harpic", "amount": 150}, {"id": "65cdd02271734238", "category": "Housing", "subcategory": "Washing Powder", "amount": 200}, {"id": "89d70927620440aa", "category": "Health", "subcategory": "Medicines", "amount": 3000}, {"id": "709bf75cacdf49c3", "category": "Health", "subcategory": "Doctor", "amount": 500}, {"id": "f2473f82a09e46fb", "category": "Utilities", "subcategory": "Electricity", "amount": 1640}, {"id": "ffc5abbe50c04a60", "category": "Utilities", "subcategory": "Internet", "amount": 3500}, {"id": "fb067f91a1d044e5", "category": "Utilities", "subcategory": "Postpaid Vi", "amount": 532}, {"id": "10201d88c8c7434d", "category": "Utilities", "subcategory": "Ironing", "amount": 900}, {"id": "113f386c96c9434f", "category": "Lifestyle", "subcategory": "AI-Astra", "amount": 2400}, {"id": "3a653908c0294290", "category": "Lifestyle", "subcategory": "Netflix", "amount": 199}, {"id": "8108a32d615a4504", "category": "Misc", "subcategory": "Tobacco", "amount": 300}, {"id": "c2cd4f6091624fd8", "category": "Misc", "subcategory": "Online Charges", "amount": 1000}, {"id": "a5791a9102fe483e", "category": "Misc", "subcategory": "Others", "amount": 1000}, {"id": "3a74795ab25c4600", "category": "Misc", "subcategory": "Transport-Auto", "amount": 300}, {"id": "a54a0bdbc2604450", "category": "Personal", "subcategory": "Haircutting", "amount": 150}, {"id": "8dd8c41cc7e74ffb", "category": "Personal", "subcategory": "Rituals", "amount": 200}]};
-    Object.assign(existing, juneBudgets);
+    const restored = {"2026-06": [{"id": "0b0ab13dbb304531", "category": "Food", "subcategory": "BF-Eggs", "amount": 500}, {"id": "4a1fe104e9c24c39", "category": "Food", "subcategory": "BF-Milk", "amount": 510}, {"id": "ed16dc6d4db74535", "category": "Food", "subcategory": "BF-Muselli", "amount": 700}, {"id": "f5eff2608b2f40e9", "category": "Food", "subcategory": "Dinner-Tiffin", "amount": 4050}, {"id": "fcbacb2ed9ad4b75", "category": "Food", "subcategory": "Lunch-Tiffin", "amount": 3900}, {"id": "bb2ad0c656db4ade", "category": "Food", "subcategory": "Nonveg-Chicken", "amount": 1000}, {"id": "a8771d6d0d3b482b", "category": "Grocery", "subcategory": "Amul Masti", "amount": 420}, {"id": "2385e8870b5c466a", "category": "Grocery", "subcategory": "Coconut Water", "amount": 420}, {"id": "929bb1acf4bc4fab", "category": "Grocery", "subcategory": "Delivery charges", "amount": 130}, {"id": "e7772f8701e94035", "category": "Grocery", "subcategory": "Fruits-Apple-Banana", "amount": 800}, {"id": "9d6568cc771a4fe1", "category": "Grocery", "subcategory": "Fruits-Others", "amount": 800}, {"id": "f1c938f549e941ac", "category": "Grocery", "subcategory": "Shrikhand", "amount": 500}, {"id": "6cb31ce9db4f4e1b", "category": "Grocery", "subcategory": "Sugar & Others", "amount": 120}, {"id": "5607f6605e304e90", "category": "Grocery", "subcategory": "Thums Up", "amount": 600}, {"id": "c9f8c0751e1d4f84", "category": "Housing", "subcategory": "Rent-Landlord", "amount": 25000}, {"id": "f2154ca7c53d47a8", "category": "Housing", "subcategory": "Rent Mojo", "amount": 3630}, {"id": "aad99807202b4b36", "category": "Utilities", "subcategory": "Electricity", "amount": 1300}, {"id": "5d4ec698dd734c01", "category": "Utilities", "subcategory": "Ironing", "amount": 200}, {"id": "ea6be9081b784ea7", "category": "Lifestyle", "subcategory": "AI-Astra", "amount": 400}, {"id": "ccb0d44162a242bf", "category": "Lifestyle", "subcategory": "Netflix", "amount": 200}, {"id": "fa120c2fafd246ad", "category": "Misc", "subcategory": "Tobacco", "amount": 330}, {"id": "2715836c4bd54b8d", "category": "Personal", "subcategory": "Haircutting", "amount": 150}], "2026-07": [{"id": "2f9195c669d44a09", "category": "Food", "subcategory": "BF-Eggs", "amount": 500}, {"id": "e3f47ef40ec64b97", "category": "Food", "subcategory": "BF-Milk", "amount": 510}, {"id": "b781fd8c4fd1482c", "category": "Food", "subcategory": "BF-Muselli", "amount": 700}, {"id": "93880bd09f0b4526", "category": "Food", "subcategory": "Dinner-Tiffin", "amount": 4050}, {"id": "e0465b0a49024c7e", "category": "Food", "subcategory": "Lunch-Tiffin", "amount": 3900}, {"id": "57421fda191847f6", "category": "Food", "subcategory": "Nonveg-Chicken", "amount": 1000}, {"id": "ee70fd57bc654567", "category": "Grocery", "subcategory": "Amul Masti", "amount": 420}, {"id": "07a7a9ae6b7f4a30", "category": "Grocery", "subcategory": "Coconut Water", "amount": 420}, {"id": "51548e37e91c4c80", "category": "Grocery", "subcategory": "Delivery charges", "amount": 130}, {"id": "903c6304edc9421d", "category": "Grocery", "subcategory": "Fruits-Apple-Banana", "amount": 800}, {"id": "d6f158a2853d4f09", "category": "Grocery", "subcategory": "Fruits-Others", "amount": 800}, {"id": "a4177492ccbc4657", "category": "Grocery", "subcategory": "Shrikhand", "amount": 500}, {"id": "a10a032349da4d00", "category": "Grocery", "subcategory": "Sugar & Others", "amount": 120}, {"id": "136eb1833af34ae5", "category": "Grocery", "subcategory": "Thums Up", "amount": 600}, {"id": "4e547af1187a4a89", "category": "Housing", "subcategory": "Rent-Landlord", "amount": 25000}, {"id": "2ad3f4d637d84496", "category": "Housing", "subcategory": "Rent Mojo", "amount": 3630}, {"id": "ed55c4f742f34c3e", "category": "Utilities", "subcategory": "Electricity", "amount": 1300}, {"id": "06b5d9f813ef47c6", "category": "Utilities", "subcategory": "Ironing", "amount": 200}, {"id": "f10e812410b44e92", "category": "Lifestyle", "subcategory": "AI-Astra", "amount": 400}, {"id": "e01898d74f7a4376", "category": "Lifestyle", "subcategory": "Netflix", "amount": 200}, {"id": "edeb892e60ad4e34", "category": "Misc", "subcategory": "Tobacco", "amount": 330}, {"id": "66bd35c37b57456d", "category": "Personal", "subcategory": "Haircutting", "amount": 150}]};
+    // Only inject months not already present
+    Object.keys(restored).forEach(m => {
+      if (!existing[m] || existing[m].length === 0) {
+        existing[m] = restored[m];
+      }
+    });
     localStorage.setItem('sw_budgets', JSON.stringify(existing));
-    localStorage.setItem('sw_june_budget_restored', '1');
-    console.log('[SYNDY RESTORE] June 2026 budgets restored: 32 items injected.');
-  } catch(e) { console.error('[SYNDY RESTORE] Budget restore failed:', e); }
+    localStorage.setItem('sw_budgets_v14', '1');
+    console.log('[SYNDY] Budgets restored: June + July 2026 (22 items each)');
+  } catch(e) { console.error('[SYNDY] Budget restore failed:', e); }
 })();
 
 
@@ -375,15 +375,22 @@ function calcBalances() {
 // locks them as the checkpoint for the selected month, then saves.
 // After this, ALL transactions in that month and prior can be safely
 // deleted without affecting displayed balances.
+// ── FIX: detect last month with transactions for checkpoint ──
+function lastTransactionMonth() {
+  if (!txns || txns.length === 0) return currentMonth();
+  const dates = txns.map(t => t.date ? t.date.slice(0,7) : '').filter(Boolean);
+  if (!dates.length) return currentMonth();
+  return dates.sort().pop(); // most recent month with transactions
+}
+
 function openCloseMonthModal() {
   const bal    = calcBalances();
   const cp     = getLatestCheckpoint();
   const allCps = loadCheckpoints();
 
-  // Determine which month we are closing (defaults to previous month)
-  const ist    = istNow();
-  const prev   = new Date(ist.getFullYear(), ist.getMonth() - 1, 1);
-  const suggestedMonth = prev.toISOString().slice(0, 7);
+  // Determine which month we are closing
+  // Use last month that has transactions (avoids showing wrong month in new month)
+  const suggestedMonth = lastTransactionMonth();
 
   // Build modal content
   const rows = ACCOUNTS.map(a => {
