@@ -69,6 +69,26 @@ const ACCOUNTS = [
 })();
 
 
+
+// ── FIX: Remove incorrectly-created August 2026 checkpoint ──────
+// August checkpoint was locked on Aug 1st BEFORE Aug transactions ran,
+// causing Aug balances to freeze at July closing values.
+// This removes it so balance engine correctly replays Aug transactions.
+(function removeAugCheckpoint() {
+  try {
+    if (localStorage.getItem('sw_aug_cp_fixed') === '1') return;
+    const raw = localStorage.getItem('sw_checkpoints');
+    if (!raw) { localStorage.setItem('sw_aug_cp_fixed', '1'); return; }
+    const all = JSON.parse(raw);
+    if (all['2026-08']) {
+      delete all['2026-08'];
+      localStorage.setItem('sw_checkpoints', JSON.stringify(all));
+      console.log('[SYNDY] Removed bad August 2026 checkpoint - balances will now recalculate correctly');
+    }
+    localStorage.setItem('sw_aug_cp_fixed', '1');
+  } catch(e) {}
+})();
+
 const EXP_CATS = ['Food','Grocery','Housing','Utilities','Health','Personal','Lifestyle','Misc'];
 const INC_SUBS = ['Salary','Professional Fees','Sav Int-Kotak','Sav Int-ICICI','Bond Interest'];
 
@@ -357,10 +377,13 @@ function openCloseMonthModal() {
   const cp     = getLatestCheckpoint();
   const allCps = loadCheckpoints();
 
-  // Determine which month we are closing (defaults to previous month)
-  const ist    = istNow();
-  const prev   = new Date(ist.getFullYear(), ist.getMonth() - 1, 1);
-  const suggestedMonth = prev.toISOString().slice(0, 7);
+  // Determine which month to close — always previous calendar month (IST-safe)
+  // Uses todayStr() which is already IST-correct (YYYY-MM-DD)
+  const todayIST = todayStr();
+  const [ty, tm] = todayIST.slice(0,7).split('-').map(Number);
+  const pm = tm === 1 ? 12 : tm - 1;
+  const py = tm === 1 ? ty - 1 : ty;
+  const suggestedMonth = py + '-' + String(pm).padStart(2, '0');
 
   // Build modal content
   const rows = ACCOUNTS.map(a => {
@@ -420,6 +443,10 @@ function closeCloseMonthModal() {
 function confirmCloseMonth() {
   const month = document.getElementById('closeMonthPicker').value;
   if (!month) { showToast('Select a month to close', 'error'); return; }
+  if (month >= currentMonth()) {
+    showToast('⚠ Cannot close current or future month — select a past month', 'error');
+    return;
+  }
 
   const bal   = calcBalances();
   const today = todayStr();
@@ -461,7 +488,7 @@ function showPage(id) {
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
   document.getElementById('nav-' + id).classList.add('active');
-  if (id === 'dashboard') { txns = loadTxns(); renderDashboard(); }
+  if (id === 'dashboard') renderDashboard();
   if (id === 'add')       initAddPage();
   if (id === 'data')      renderTxnCards();
   if (id === 'reports')   renderReports();
@@ -709,7 +736,6 @@ function applyNL(p) {
   };
   if (p.type==='Transfer') txn.autoName = `${p.fromAccount} → ${p.toAccount}`;
   txns.push(txn); saveTxns(txns);
-  txns = loadTxns(); // reload from storage to ensure sync
   document.getElementById('nlInput').value = '';
   document.getElementById('nlPreview').innerHTML = '';
   showToast('✓ Saved!','success');
@@ -752,7 +778,6 @@ function saveTxnForm() {
   }
 
   txns.push(txn); saveTxns(txns);
-  txns = loadTxns(); // reload from storage to ensure sync
   resetForm();
   showToast('✓ Saved!','success');
   renderDashboard();
@@ -910,7 +935,6 @@ function editTxn(id) {
 function deleteTxn(id) {
   showConfirm('Delete this transaction?', () => {
     txns=txns.filter(t=>t.id!==id); saveTxns(txns);
-    txns = loadTxns();
     renderTxnCards(); renderDashboard();
     showToast('Deleted','success');
   });
