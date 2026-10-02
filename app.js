@@ -425,7 +425,45 @@ function openCloseMonthModal() {
       </div>
 
       <label class="form-label">Month to Close</label>
-      <input id="closeMonthPicker" class="form-control" type="month" value="${suggestedMonth}" style="margin-bottom:14px" />
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:14px" id="monthBtnGrid"></div>
+      <input id="closeMonthPicker" type="hidden" value="${suggestedMonth}" />
+      <div id="selectedMonthLabel" style="text-align:center;font-size:13px;font-weight:700;color:var(--accent);margin-bottom:10px"></div>
+      <script>
+        (function(){
+          const grid = document.getElementById('monthBtnGrid');
+          const hidden = document.getElementById('closeMonthPicker');
+          const label = document.getElementById('selectedMonthLabel');
+          const months = [];
+          const now = new Date();
+          for(let i=5;i>=0;i--){
+            const d = new Date(now.getFullYear(), now.getMonth()-i, 1);
+            const val = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+            const name = d.toLocaleDateString('en-IN',{month:'short',year:'numeric'});
+            months.push({val,name});
+          }
+          months.forEach(m => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.textContent = m.name;
+            const isSel = m.val === hidden.value;
+            btn.style.cssText = 'padding:10px 4px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid '+(isSel?'rgba(0,212,170,0.6)':'var(--border)')+';background:'+(isSel?'rgba(0,212,170,0.15)':'rgba(255,255,255,0.04)')+';color:'+(isSel?'var(--accent)':'var(--text)');
+            btn.onclick = function(){
+              hidden.value = m.val;
+              label.textContent = 'Selected: ' + m.name;
+              grid.querySelectorAll('button').forEach(b=>{
+                b.style.background='rgba(255,255,255,0.04)';
+                b.style.border='1px solid var(--border)';
+                b.style.color='var(--text)';
+              });
+              btn.style.background='rgba(0,212,170,0.15)';
+              btn.style.border='1px solid rgba(0,212,170,0.6)';
+              btn.style.color='var(--accent)';
+            };
+            grid.appendChild(btn);
+          });
+          label.textContent = 'Selected: ' + (months.find(m=>m.val===hidden.value)||months[months.length-1]).name;
+        })();
+      </script>
 
       <div style="font-size:12px;color:var(--text2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px">
         Current Balances (will be locked as checkpoint)
